@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NUR1211 — High-Yield Flashcards</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #0d0f18;
+  --surface: #141720;
+  --surface2: #1c2030;
+  --border: #272d42;
+  --text: #e8eaf2;
+  --text2: #8b92b8;
+  --text3: #4a5070;
+  --accent: #4f8ef7;
+  --green: #3db87a;
+  --red: #e05c6a;
+  --amber: #e8a838;
+  --purple: #9b72e8;
+  --teal: #2fbfbf;
+  --pink: #e8527a;
+  --card-h: 340px;
+}
+
+[data-theme="light"] {
+  --bg: #faf7f2;
+  --surface: #f4f0e8;
+  --surface2: #ece6d8;
+  --border: #d6ccb8;
+  --text: #1e1c18;
+  --text2: #5a5448;
+  --text3: #9e9080;
+  --accent: #2563d4;
+  --green: #1a9157;
+  --red: #c0384a;
+  --amber: #b87418;
+  --purple: #6340a0;
+  --teal: #177f7f;
+  --pink: #b83060;
+}
+
+/* light mode card shadow adjustments */
+[data-theme="light"] .study-front,
+[data-theme="light"] .study-back {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+}
+[data-theme="light"] .fc-front,
+[data-theme="light"] .fc-back {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+[data-theme="light"] .fc-front { background: #fff; }
+[data-theme="light"] .study-front { background: #fff; }
+
+/* toggle button */
+#themeToggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  padding: 6px 13px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+#themeToggle:hover { background: var(--border); color: var(--text); }
+
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ─────────────────────────────────── */
+.header {
+  padding: 20px 28px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header-left h1 {
+  font-family: 'Crimson Pro', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text);
+}
+.header-left .sub {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 2px;
+  letter-spacing: 0.03em;
+}
+
+.stats-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.stat-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'DM Mono', monospace;
+}
+.stat-pill span { color: var(--text); font-weight: 500; }
+
+/* ── FILTER BAR ──────────────────────────────── */
+.filter-bar {
+  padding: 16px 28px 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+  margin-right: 4px;
+}
+.filter-btn {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  font-size: 12px;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.filter-btn:hover, .filter-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(79,142,247,0.08);
+}
+.filter-btn.active { font-weight: 600; }
+
+/* search */
+.search-wrap {
+  margin-left: auto;
+  position: relative;
+}
+.search-wrap input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 14px 7px 32px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  width: 200px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap::before {
+  content: '⌕';
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3);
+  font-size: 15px;
+}
+
+/* ── PROGRESS BAR ────────────────────────────── */
+.progress-wrap {
+  padding: 0 28px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--accent));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.progress-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+/* ── CARD GRID ───────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 16px;
+  padding: 4px 28px 40px;
+}
+
+/* ── FLASHCARD ───────────────────────────────── */
+.fc {
+  height: var(--card-h);
+  perspective: 1000px;
+  cursor: pointer;
+}
+.fc-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+}
+.fc.flipped .fc-inner {
+  transform: rotateY(180deg);
+}
+.fc-front, .fc-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.fc-back {
+  transform: rotateY(180deg);
+}
+
+/* Front face */
+.fc-front {
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.fc-front:hover { border-color: var(--text3); }
+
+.fc-tag {
+  padding: 10px 14px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.tag-pill {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+.flip-hint {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+.fc-q {
+  flex: 1;
+  padding: 10px 18px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.fc-q-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.fc-num {
+  padding: 0 14px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  text-align: right;
+}
+
+/* Back face */
+.fc-back {
+  border: 1px solid var(--border);
+  background: var(--surface2);
+}
+.fc-back-header {
+  padding: 10px 14px 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.answer-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+}
+.fc-a {
+  flex: 1;
+  padding: 6px 18px 14px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text2);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.fc-a strong { color: var(--text); }
+.fc-a .highlight {
+  background: rgba(79,142,247,0.12);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--accent);
+  font-weight: 600;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+.fc-a ul { padding-left: 16px; margin: 4px 0; }
+.fc-a li { margin: 3px 0; }
+.fc-a .mnemonic {
+  background: rgba(155,114,232,0.12);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 6px 6px 0;
+  padding: 8px 12px;
+  margin: 8px 0;
+  font-size: 12.5px;
+  color: var(--text);
+}
+.fc-a .atinote {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* Status buttons */
+.fc-btns {
+  padding: 8px 14px 12px;
+  display: flex;
+  gap: 8px;
+}
+.fc-btn {
+  flex: 1;
+  padding: 7px 0;
+  border: none;
+  border-radius: 7px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.fc-btn.know { background: rgba(61,184,122,0.15); color: var(--green); }
+.fc-btn.know:hover { background: rgba(61,184,122,0.28); }
+.fc-btn.review { background: rgba(224,92,106,0.15); color: var(--red); }
+.fc-btn.review:hover { background: rgba(224,92,106,0.28); }
+.fc-btn.maybe { background: rgba(232,168,56,0.15); color: var(--amber); }
+.fc-btn.maybe:hover { background: rgba(232,168,56,0.28); }
+
+/* Status indicator on front */
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.status-know { background: var(--green); border-color: var(--green); }
+.status-review { background: var(--red); border-color: var(--red); }
+.status-maybe { background: var(--amber); border-color: var(--amber); }
+
+/* Empty state */
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text3);
+  font-size: 15px;
+}
+
+/* Color themes per category */
+.cat-stroke    { --cat: #9b72e8; }
+.cat-gi        { --cat: #e8a838; }
+.cat-neuro     { --cat: #9b72e8; }
+.cat-hiv       { --cat: #e05c6a; }
+.cat-infection { --cat: #2fbfbf; }
+.cat-anticoag  { --cat: #4f8ef7; }
+.cat-anemia    { --cat: #e8527a; }
+.cat-resp      { --cat: #2fbfbf; }
+.cat-acidbase  { --cat: #9b72e8; }
+.cat-electro   { --cat: #3db87a; }
+.cat-periop    { --cat: #3db87a; }
+.cat-oncology  { --cat: #e8a838; }
+.cat-diabetes  { --cat: #4f8ef7; }
+.cat-cardiac   { --cat: #e05c6a; }
+.cat-msk       { --cat: #3db87a; }
+.cat-gu        { --cat: #2fbfbf; }
+.cat-medadmin  { --cat: #4f8ef7; }
+.cat-math      { --cat: #8b92b8; }
+
+.tag-pill { background: rgba(var(--cat-rgb, 79,142,247), 0.12); color: var(--cat, var(--accent)); }
+.fc { --cat-rgb: 79,142,247; }
+
+@media (max-width: 600px) {
+  .card-grid { grid-template-columns: 1fr; padding: 4px 16px 40px; }
+  .filter-bar { padding: 12px 16px 8px; }
+  .header { padding: 16px 16px 0; }
+  .progress-wrap { padding: 0 16px 10px; }
+  .search-wrap input { width: 150px; }
+  :root { --card-h: 300px; }
+}
+
+  /* ── VIEW TOGGLE ───────────────────────────────────── */
+  .view-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 4px;
+  }
+  .view-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap;
+  }
+  .view-btn.active {
+    background: var(--surface2);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+
+  /* ── STUDY MODE ─────────────────────────────────────── */
+  #studyMode { display:none; flex-direction:column; align-items:center; padding:12px 24px 60px; }
+  #studyMode.active { display:flex; }
+
+  .study-meta {
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; max-width:620px; margin-bottom:16px; gap:12px;
+  }
+  .study-counter { font-family:'DM Mono',monospace; font-size:13px; color:var(--text2); }
+  .study-counter span { color:var(--text); font-weight:500; }
+  .study-shuffle-btn {
+    background:var(--surface); border:1px solid var(--border); color:var(--text2);
+    font-size:12px; font-family:'DM Sans',sans-serif;
+    padding:5px 12px; border-radius:20px; cursor:pointer; transition:all .15s;
+  }
+  .study-shuffle-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+  .study-card-wrap {
+    width:100%; max-width:620px; height:380px;
+    perspective:1200px; cursor:pointer; margin-bottom:24px;
+  }
+  @media(max-width:600px){ .study-card-wrap{ height:300px; } }
+
+  .study-card-inner {
+    width:100%; height:100%; position:relative;
+    transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.4,0,.2,1);
+    border-radius:16px;
+  }
+  .study-card-wrap.flipped .study-card-inner { transform:rotateY(180deg); }
+
+  .study-front, .study-back {
+    position:absolute; inset:0; border-radius:16px;
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .study-back { transform:rotateY(180deg); }
+  .study-front { background:var(--surface); border:1px solid var(--border); box-shadow:0 8px 32px rgba(0,0,0,.3); }
+  .study-back  { background:var(--surface2); border:1px solid var(--border); box-shadow:0 8px 32px rgba(0,0,0,.3); }
+
+  .study-front-header, .study-back-header {
+    padding:14px 20px 10px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid var(--border);
+  }
+  .study-flip-hint { font-size:11px; color:var(--text3); letter-spacing:.04em; }
+
+  .study-q {
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:20px 28px; text-align:center;
+  }
+  .study-q-text {
+    font-family:'Crimson Pro',serif; font-size:22px; line-height:1.55; color:var(--text);
+  }
+  @media(max-width:600px){ .study-q-text{ font-size:17px; } }
+
+  .study-a {
+    flex:1; padding:16px 24px; overflow-y:auto;
+    font-size:14px; line-height:1.7; color:var(--text2);
+    scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+  }
+  .study-a strong { color:var(--text); }
+  .study-a .mnemonic {
+    background:rgba(155,114,232,.12); border-left:3px solid var(--purple);
+    border-radius:0 6px 6px 0; padding:10px 14px; margin:8px 0;
+    font-size:13px; color:var(--text);
+  }
+  .study-a ul { padding-left:18px; margin:6px 0; }
+  .study-a li { margin:4px 0; }
+
+  .study-actions {
+    display:flex; gap:10px; justify-content:center;
+    margin-bottom:20px; width:100%; max-width:620px;
+  }
+  .study-action-btn {
+    flex:1; max-width:160px; padding:12px 0; border:none; border-radius:10px;
+    font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+    cursor:pointer; transition:all .15s;
+    display:flex; align-items:center; justify-content:center; gap:5px;
+  }
+  .sab-review { background:rgba(224,92,106,.15); color:var(--red); }
+  .sab-review:hover { background:rgba(224,92,106,.28); }
+  .sab-maybe  { background:rgba(232,168,56,.15);  color:var(--amber); }
+  .sab-maybe:hover  { background:rgba(232,168,56,.28); }
+  .sab-know   { background:rgba(61,184,122,.15);  color:var(--green); }
+  .sab-know:hover   { background:rgba(61,184,122,.28); }
+
+  .study-nav {
+    display:flex; align-items:center; gap:20px;
+    width:100%; max-width:620px; justify-content:center;
+  }
+  .study-nav-btn {
+    width:44px; height:44px; border-radius:50%;
+    border:1px solid var(--border); background:var(--surface);
+    color:var(--text2); font-size:20px; cursor:pointer; transition:all .15s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .study-nav-btn:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+  .study-nav-btn:disabled { opacity:.3; cursor:not-allowed; }
+
+  .study-dots { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; max-width:420px; }
+  .study-dot {
+    width:8px; height:8px; border-radius:50%;
+    background:var(--surface2); border:1px solid var(--border);
+    transition:all .2s; cursor:pointer;
+  }
+  .study-dot.current { background:var(--accent); border-color:var(--accent); transform:scale(1.35); }
+  .study-dot.know   { background:var(--green);  border-color:var(--green); }
+  .study-dot.review { background:var(--red);    border-color:var(--red); }
+  .study-dot.maybe  { background:var(--amber);  border-color:var(--amber); }
+
+  .keyboard-hint {
+    margin-top:16px; font-size:11px; color:var(--text3);
+    display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+  }
+  .keyboard-hint kbd {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:4px; padding:1px 6px;
+    font-family:'DM Mono',monospace; font-size:10px;
+  }
+
+  /* hide grid when in study mode */
+  body.study-active .card-grid { display:none !important; }
+  body.study-active #studyMode { display:flex !important; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>NUR1211 High-Yield Flashcards</h1>
+    <div class="sub">Adult Health Nursing I · ATI-Verified · All Exams</div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><div class="stats-row">
+    <div class="stat-pill">Total <span id="totalCount">0</span></div>
+    <div class="stat-pill" style="color:var(--green)">✓ Know <span id="knowCount" style="color:var(--green)">0</span></div>
+    <div class="stat-pill" style="color:var(--amber)">~ Maybe <span id="maybeCount" style="color:var(--amber)">0</span></div>
+    <div class="stat-pill" style="color:var(--red)">✗ Review <span id="reviewCount" style="color:var(--red)">0</span></div>
+  </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button id="themeToggle" onclick="toggleTheme()">
+        <span id="themeIcon">&#9728;&#65039;</span>
+        <span id="themeLabel">Light</span>
+      </button>
+      <div class="view-toggle">
+      <button class="view-btn active" id="btnGrid" onclick="setView('grid')">⊞ Grid</button>
+      <button class="view-btn" id="btnStudy" onclick="setView('study')">▶ Study Mode</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+  <button class="filter-btn" onclick="filterCards('stroke', this)">Stroke</button>
+  <button class="filter-btn" onclick="filterCards('gi', this)">GI / Biliary</button>
+  <button class="filter-btn" onclick="filterCards('neuro', this)">Neurobiology</button>
+  <button class="filter-btn" onclick="filterCards('hiv', this)">HIV</button>
+  <button class="filter-btn" onclick="filterCards('infection', this)">Infection</button>
+  <button class="filter-btn" onclick="filterCards('anticoag', this)">Anticoag</button>
+  <button class="filter-btn" onclick="filterCards('anemia', this)">Anemia</button>
+  <button class="filter-btn" onclick="filterCards('resp', this)">Respiratory</button>
+  <button class="filter-btn" onclick="filterCards('acidbase', this)">Acid-Base</button>
+  <button class="filter-btn" onclick="filterCards('electro', this)">Electrolytes</button>
+  <button class="filter-btn" onclick="filterCards('periop', this)">Periop</button>
+  <button class="filter-btn" onclick="filterCards('oncology', this)">Oncology</button>
+  <button class="filter-btn" onclick="filterCards('diabetes', this)">Diabetes</button>
+  <button class="filter-btn" onclick="filterCards('cardiac', this)">Cardiac/HTN</button>
+  <button class="filter-btn" onclick="filterCards('msk', this)">MSK</button>
+  <button class="filter-btn" onclick="filterCards('gu', this)">GU</button>
+  <button class="filter-btn" onclick="filterCards('medadmin', this)">Med Admin</button>
+  <button class="filter-btn" onclick="filterCards('review', this)" style="border-color:var(--red);color:var(--red)">⚑ Need Review</button>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="Search cards…" oninput="searchCards(this.value)">
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-text" id="progressText">0 / 0 known</div>
+</div>
+
+<div id="studyMode">
+  <div class="study-meta">
+    <div class="study-counter">Card <span id="studyPos">1</span> of <span id="studyTotal">0</span></div>
+    <button class="study-shuffle-btn" onclick="shuffleStudy()">&#x21C4; Shuffle</button>
+  </div>
+
+  <div class="study-card-wrap" id="studyCard" onclick="flipStudyCard()">
+    <div class="study-card-inner" id="studyCardInner">
+      <div class="study-front">
+        <div class="study-front-header">
+          <span class="tag-pill" id="studyTagFront" style="background:#4f8ef722;color:#4f8ef7">Category</span>
+          <span class="study-flip-hint">tap to reveal answer</span>
+        </div>
+        <div class="study-q">
+          <div class="study-q-text" id="studyQuestion">Loading...</div>
+        </div>
+      </div>
+      <div class="study-back">
+        <div class="study-back-header">
+          <span class="tag-pill" id="studyTagBack" style="background:#4f8ef722;color:#4f8ef7">Category</span>
+          <span style="margin-left:auto;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)">Answer</span>
+        </div>
+        <div class="study-a" id="studyAnswer">Answer here</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="study-actions">
+    <button class="study-action-btn sab-review" onclick="studyMark('review')">&#x2717; Review</button>
+    <button class="study-action-btn sab-maybe"  onclick="studyMark('maybe')">~ Almost</button>
+    <button class="study-action-btn sab-know"   onclick="studyMark('know')">&#x2713; Know it</button>
+  </div>
+
+  <div class="study-nav">
+    <button class="study-nav-btn" id="prevBtn" onclick="studyNav(-1)" disabled>&#x2039;</button>
+    <div class="study-dots" id="studyDots"></div>
+    <button class="study-nav-btn" id="nextBtn" onclick="studyNav(1)">&#x203A;</button>
+  </div>
+
+  <div class="keyboard-hint">
+    <span><kbd>&larr;</kbd><kbd>&rarr;</kbd> navigate</span>
+    <span><kbd>Space</kbd> flip card</span>
+    <span><kbd>1</kbd> review &middot; <kbd>2</kbd> almost &middot; <kbd>3</kbd> know</span>
+  </div>
+</div>
+
+<div class="card-grid" id="cardGrid"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// FLASHCARD DATA — 200 cards across all topics
+// ═══════════════════════════════════════════════════════════════════════
+const CARDS = [
+
+// ─── STROKE (20 cards) ────────────────────────────────────────────
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is the tPA (alteplase) time window for ischemic stroke?',
+  a:'<strong>3 to 4.5 hours</strong> from symptom onset. Per ATI Ch.15.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What BP level requires the nurse to hold tPA in stroke?',
+  a:'Systolic <strong>>180 mmHg</strong> OR diastolic <strong>>110 mmHg</strong> — notify provider immediately. (ATI Ch.15)' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What does BEFAST stand for?',
+  a:'<div class="mnemonic"><strong>B</strong>alance loss · <strong>E</strong>yes (vision changes) · <strong>F</strong>ace drooping · <strong>A</strong>rm weakness · <strong>S</strong>peech difficulty · <strong>T</strong>ime — call 911 immediately</div>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Left hemisphere stroke → what deficits?',
+  a:'<ul><li><strong>Right-sided</strong> hemiplegia/paresis</li><li><strong>Aphasia</strong> (expressive or receptive)</li><li>Slow, cautious behavior</li><li>Right homonymous hemianopsia</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Right hemisphere stroke → what deficits?',
+  a:'<ul><li><strong>Left-sided</strong> hemiplegia/paresis</li><li><strong>Left neglect</strong> syndrome</li><li>Impulsive, unaware behavior</li><li>Spatial-perceptual deficits</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is homonymous hemianopsia and how do you teach the client?',
+  a:'Loss of vision in the <strong>same visual field of both eyes</strong>. Teach client to: scan the affected side when walking/eating; place items on the seeing side initially; turn head to compensate.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Hemorrhagic vs Ischemic stroke: key difference in management?',
+  a:'<strong>Ischemic</strong> → tPA (if within 3–4.5 hr, no hemorrhage on CT)<br><strong>Hemorrhagic</strong> → tPA is ABSOLUTELY CONTRAINDICATED. Manage BP, surgical consult. CT must rule out hemorrhage before any thrombolytic.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is a TIA and why is it important?',
+  a:'Transient Ischemic Attack: neurological symptoms that resolve within <strong>24 hours</strong> (usually minutes) with <strong>NO permanent damage</strong>. Critical warning sign — up to 10–15% risk of full stroke within 90 days. Treat with antiplatelet therapy.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Priority nursing action BEFORE giving oral meds/food to a stroke client?',
+  a:'Perform a <strong>dysphagia screening</strong> first. Swallowing impairment → aspiration pneumonia risk (leading cause of post-stroke mortality). Nothing by mouth until screening is complete.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Which medications are given after ischemic stroke for secondary prevention?',
+  a:'<ul><li><strong>Antiplatelets:</strong> aspirin, clopidogrel, dipyridamole</li><li><strong>Anticoagulants:</strong> warfarin or NOACs (dabigatran, apixaban, rivaroxaban) — for atrial fibrillation-related stroke</li><li><strong>Statins:</strong> reduce recurrence risk</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What nursing action should be done for a client with LEFT neglect?',
+  a:'Teach client to <strong>consciously scan to the LEFT</strong> when ambulating and eating. Place items on the left side to encourage awareness. Approach from the left side to promote attention to the neglected side.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is global aphasia vs expressive vs receptive aphasia?',
+  a:'<ul><li><strong>Expressive (Broca\'s):</strong> understands but cannot speak</li><li><strong>Receptive (Wernicke\'s):</strong> can speak but cannot understand</li><li><strong>Global:</strong> cannot speak OR understand — most severe</li></ul>All are left hemisphere.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is dysphagia vs dysphasia vs dysarthria?',
+  a:'<ul><li><strong>Dysphagia:</strong> difficulty SWALLOWING</li><li><strong>Dysphasia:</strong> language impairment (sometimes used interchangeably with aphasia)</li><li><strong>Dysarthria:</strong> difficulty SPEAKING due to muscle weakness — can still understand and write</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is the priority initial diagnostic test when stroke is suspected?',
+  a:'<strong>Non-contrast CT scan</strong> of the head — done immediately to differentiate ischemic from hemorrhagic stroke. This determines whether tPA can be given.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What are modifiable risk factors for stroke?',
+  a:'<ul><li>Hypertension (most important)</li><li>Atrial fibrillation</li><li>Hyperlipidemia</li><li>Diabetes mellitus</li><li>Smoking/tobacco use</li><li>Obesity</li><li>Physical inactivity</li><li>Excessive alcohol</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What rehabilitation goal guides active vs passive ROM after stroke?',
+  a:'<strong>Active ROM</strong>: client moves limb themselves — for less affected side.<br><strong>Passive ROM</strong>: nurse/therapist moves the limb — for paralyzed/affected side. Goal: prevent contractures, maintain circulation, preserve muscle function.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What nursing position is used for a client at aspiration risk post-stroke?',
+  a:'<strong>HOB elevated 30–45°</strong> during and after meals. Sit upright for at least 30 minutes after eating. Turn head toward the STRONGER side when swallowing (directs bolus away from affected side).' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is the significance of a "silent" period of pain relief in the context of suspected stroke-related GI issue or headache?',
+  a:'In stroke context: sudden severe headache described as <strong>"worst headache of my life"</strong> = hallmark of subarachnoid hemorrhage (hemorrhagic stroke). This is a medical emergency.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What anticoagulant is commonly used in AF-related ischemic stroke, and what lab is monitored?',
+  a:'<strong>Warfarin</strong> — monitor INR (goal 2–3 for stroke prevention in AF). NOACs (dabigatran, apixaban) are alternatives — no INR monitoring needed.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Within what timeframe must aspirin be given after ischemic stroke (after CT confirms no hemorrhage)?',
+  a:'<strong>24 to 48 hours</strong> following confirmed ischemic stroke per ATI Ch.15.' },
+
+// ─── GI / HEPATIC / BILIARY (25 cards) ────────────────────────────
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Duodenal vs Gastric ulcer pain patterns?',
+  a:'<ul><li><strong>Duodenal:</strong> pain 2–3 hours AFTER meals, at night; RELIEVED by food/antacids</li><li><strong>Gastric:</strong> pain SHORTLY after eating; food worsens it</li></ul>Duodenal ulcers are more common.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Standard H. pylori triple therapy regimen per ATI?',
+  a:'<strong>PPI</strong> (omeprazole) + <strong>clarithromycin</strong> + <strong>amoxicillin</strong> × 10–14 days. Confirm eradication with <strong>urea breath test</strong> 4 weeks post-treatment.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Sucralfate: when to give and key nursing point?',
+  a:'Give <strong>4 times daily, 1 hour BEFORE meals</strong> and at bedtime on empty stomach. Separate from other medications by 30 minutes (binds other drugs). Used to coat/protect ulcers.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What does "free air under the diaphragm" on X-ray indicate?',
+  a:'<strong>Bowel PERFORATION</strong> — a surgical emergency. Combined with a rigid "board-like" abdomen = peritonitis. Notify provider immediately.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What is Murphy\'s sign and what does it indicate?',
+  a:'Pain with <strong>deep inspiration during right subcostal palpation</strong> — the client stops breathing due to pain. Indicates <strong>cholecystitis</strong> (gallbladder inflammation).' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'5 Fs of cholecystitis risk factors?',
+  a:'<div class="mnemonic"><strong>F</strong>emale · <strong>F</strong>ertile · <strong>F</strong>at · <strong>F</strong>orty · <strong>F</strong>air (light-skinned)</div>Calcium oxalate is most common stone type.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'GERD: key dietary and lifestyle modifications?',
+  a:'<ul><li>Avoid eating within 2 hours of bedtime</li><li>Elevate HOB (no specific degree in ATI — just elevate)</li><li>Small frequent meals</li><li>Avoid: alcohol, caffeine, chocolate, mint, fatty/spicy foods, carbonated drinks</li><li>Remain upright after eating</li></ul>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What is paralytic ileus (non-mechanical obstruction)?',
+  a:'Decreased peristalsis due to <strong>neurogenic or metabolic causes</strong> — NOT a physical blockage. Causes: bowel manipulation during surgery, hypokalemia, spinal fracture. Treatment: bowel rest, NGT decompression, treat cause.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Most specific lab test for pancreatitis?',
+  a:'<strong>Serum lipase</strong> — most specific. Stays elevated longer than amylase. Amylase rises earlier but is less specific (elevated in other conditions too).' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Pancreatitis diet progression?',
+  a:'<strong>Acute:</strong> NPO until pain-free.<br><strong>After pain resolves:</strong> bland, high-protein, low-fat diet. No caffeine. Small frequent meals. Avoid alcohol permanently.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Hepatitis: HAV and HEV transmission route?',
+  a:'<strong>Fecal-oral route</strong>. Contaminated food/water. HAV has a vaccine. HEV does NOT have a widely available vaccine. Both are acute (do not become chronic).' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Hepatitis B: antiviral medications per ATI?',
+  a:'<strong>Tenofovir, entecavir, lamivudine, interferon alfa</strong> (multiple antivirals listed in ATI Ch.55). HAV and HBV have vaccines. HCV has NO vaccine.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Post-laparoscopic cholecystectomy: CO₂ shoulder/scapula pain — intervention?',
+  a:'<strong>Ambulate frequently</strong> to help disperse the residual CO₂ gas. (ATI does NOT specify semi-Fowler\'s for this — ambulation is the ATI-recommended intervention.)' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Diverticulitis: acute phase diet vs prevention diet?',
+  a:'<strong>ACUTE:</strong> NPO or clear liquids (bowel rest).<br><strong>PREVENTION (diverticulosis):</strong> HIGH fiber diet + adequate fluids to prevent constipation.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What is appendicitis: classic signs and when does perforation occur?',
+  a:'<ul><li>Pain starts periumbilical → migrates to RLQ (McBurney\'s point)</li><li>Rebound tenderness, low-grade fever, nausea</li><li><strong>Sudden pain RELIEF = perforation</strong> — pressure released; peritonitis follows rapidly → surgical emergency</li></ul>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Hepatic diet for clients with hepatitis (no encephalopathy)?',
+  a:'<strong>High carbohydrate, moderate protein, moderate fat</strong>. Avoid alcohol completely. Avoid OTC hepatotoxic medications (especially acetaminophen in excess). Low sodium if edema present.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What omeprazole (PPI) nursing consideration is often tested?',
+  a:'Take <strong>once daily BEFORE meals</strong> (omeprazole/lansoprazole). Monitor for hypomagnesemia with long-term use. Can mask symptoms of GI cancer — do not use without evaluation.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'HCV: how is it transmitted and what is the treatment per ATI Ed.11?',
+  a:'<strong>Bloodborne</strong> (IVDU most common, blood/blood products, sexual contact). NO vaccine available. Treatment per ATI: <strong>peginterferon alfa-2a + ribavirin</strong> combination therapy.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What are the signs of esophageal variceal bleeding in cirrhosis?',
+  a:'<strong>Hematemesis</strong> (vomiting blood), melena (black tarry stools), sudden drop in BP, tachycardia. High mortality. Treatment: octreotide, endoscopy, balloon tamponade. Prevent with beta-blockers.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What is Cullen\'s sign and Grey Turner\'s sign in pancreatitis?',
+  a:'<ul><li><strong>Cullen\'s sign:</strong> bluish discoloration around the umbilicus</li><li><strong>Grey Turner\'s sign:</strong> bruising on the flanks</li></ul>Both indicate retroperitoneal bleeding — severe pancreatitis.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Gastritis: common causes?',
+  a:'<ul><li>H. pylori infection (most common)</li><li>NSAIDs/aspirin overuse</li><li>Excessive alcohol</li><li>Stress (ICU patients)</li><li>Autoimmune (pernicious anemia)</li></ul>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Hiatal hernia: what type is most common and what is the diet?',
+  a:'<strong>Sliding hiatal hernia</strong> (most common). Diet: same as GERD — small frequent meals, avoid eating before bed, elevate HOB, avoid trigger foods. May need surgery (fundoplication) if severe.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Bowel obstruction: mechanical vs non-mechanical key differences?',
+  a:'<ul><li><strong>Mechanical:</strong> physical blockage (adhesions, tumor, hernia) → surgery often needed</li><li><strong>Non-mechanical (paralytic ileus):</strong> decreased peristalsis → NGT, bowel rest, treat cause</li></ul>Both: NPO, IV fluids, monitor for perforation.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'What nursing care is priority for a client with cholecystitis pre-op?',
+  a:'<ul><li>Low-fat diet (fat triggers bile release → pain)</li><li>Pain management</li><li>Monitor: bilirubin, ALT, AST, alkaline phosphatase</li><li>Administer prescribed analgesics</li><li>NPO if surgery planned</li></ul>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'After an EGD (endoscopy): key nursing assessments?',
+  a:'<ul><li>Monitor for return of gag reflex before giving oral fluids</li><li>Assess for bleeding or perforation (severe pain, rigid abdomen)</li><li>Monitor vital signs</li><li>NPO until gag reflex returns</li><li>Throat may be sore — normal</li></ul>' },
+
+// ─── NEUROBIOLOGY (15 cards) ──────────────────────────────────────
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'NMS: signs and treatment?',
+  a:'<strong>Signs:</strong> HIGH fever, severe MUSCLE RIGIDITY, diaphoresis, altered LOC, autonomic instability<br><strong>Treatment:</strong> STOP antipsychotic immediately; cooling measures; dantrolene or bromocriptine' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'EPS types: acute dystonia, akathisia, pseudoparkinsonism?',
+  a:'<ul><li><strong>Acute dystonia:</strong> sudden muscle spasm/twisting — Tx: benztropine or diphenhydramine IM</li><li><strong>Akathisia:</strong> restlessness, inability to sit still</li><li><strong>Pseudoparkinsonism:</strong> tremor, shuffling gait, masked face</li></ul>' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Tardive dyskinesia: cause and key fact?',
+  a:'Late-onset EPS from long-term antipsychotic use. <strong>Involuntary repetitive movements</strong>: lip smacking, tongue fasciculations, grimacing. Can be <strong>IRREVERSIBLE</strong>. Use AIMS test to screen.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'MAOI tyramine-rich foods to avoid per ATI?',
+  a:'<ul><li>Aged cheeses</li><li>Pepperoni, salami (cured meats)</li><li>Avocados</li><li>Red wine and some beers</li></ul>Risk: hypertensive crisis. ATI lists these specifically.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'MAOI → SSRI washout period?',
+  a:'<strong>14 days</strong> after stopping MAOI before starting SSRI.<br><strong>Fluoxetine:</strong> 5 weeks after stopping before starting MAOI (long half-life).' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Clozapine: monitoring schedule and WBC threshold?',
+  a:'Monitor WBC/ANC: <strong>weekly → biweekly → monthly</strong> per ATI protocol.<br>DISCONTINUE if WBC <strong><3,000/mm³</strong>.<br>BLACK BOX WARNING: agranulocytosis.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Bupropion: contraindications per ATI?',
+  a:'CONTRAINDICATED in:<ul><li>Seizure disorders (lowers seizure threshold)</li><li>Bulimia nervosa</li><li>Anorexia nervosa</li><li>Concurrent MAOI use</li></ul>Benefit: no sexual dysfunction, weight loss effect.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Venlafaxine (SNRI) discontinuation syndrome per ATI?',
+  a:'Symptoms: <strong>nausea, sensory disturbances, anxiety, tremor, malaise</strong>. Taper dose gradually — never stop abruptly.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'TCA (amitriptyline) major side effects and toxicity?',
+  a:'<ul><li>Anticholinergic: dry mouth, urinary retention, constipation, blurred vision</li><li>Orthostatic hypotension</li><li>Cardiac toxicity in overdose (fatal arrhythmias)</li><li>Sedation</li></ul>' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Haloperidol: primary concern?',
+  a:'<strong>QT interval prolongation</strong> → risk of fatal arrhythmias (Torsades de Pointes). HIGH risk for EPS. Monitor ECG. Do not use with other QT-prolonging drugs.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Alprazolam (benzodiazepine) key teaching per ATI?',
+  a:'<ul><li>Avoid alcohol and CNS depressants</li><li>Do NOT stop abruptly — taper (risk of withdrawal seizures)</li><li>Fall risk — especially in older adults</li><li>Assess fall risk for older adult clients</li></ul>' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Lithium therapeutic range and toxicity levels per ATI?',
+  a:'<ul><li><strong>Maintenance:</strong> 0.6–1.2 mEq/L</li><li><strong>Acute mania:</strong> 1.0–1.5 mEq/L</li><li><strong>Toxicity begins:</strong> ≥1.5 mEq/L → nausea, diarrhea, tremor</li><li><strong>Severe:</strong> >2.0 mEq/L → seizures, cardiac</li></ul>Maintain adequate SODIUM and FLUID intake.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'SSRI: common side effects and key teaching?',
+  a:'<ul><li>Sexual dysfunction (most common cause of noncompliance)</li><li>GI upset (nausea, diarrhea)</li><li>Insomnia or drowsiness</li><li>Takes <strong>several weeks</strong> for full therapeutic effect (ATI)</li><li>Monitor for suicidal ideation in clients <25 years</li></ul>' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Therapeutic milieu: what does ATI say about its components?',
+  a:'ATI describes milieu as a <strong>supportive, therapeutic, and safe environment</strong>. Key elements per ATI: physical safety, structured unit, regular community meetings including clients and staff. Goal: client learns coping tools through the therapeutic environment.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Serotonin syndrome: signs and cause?',
+  a:'<strong>Signs:</strong> hyperthermia, agitation, muscle rigidity/tremor, diaphoresis, tachycardia, diarrhea, altered LOC. Caused by <strong>excess serotonin</strong> — often from combining MAOI + SSRI/SNRI. STOP all serotonergic agents.' },
+
+// ─── HIV / AIDS (10 cards) ────────────────────────────────────────
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'HIV stages: what defines AIDS (Stage 3)?',
+  a:'<strong>CD4 count <200 cells/μL</strong> AND/OR presence of an <strong>AIDS-defining illness</strong> (e.g., PCP pneumonia, Kaposi\'s sarcoma, CMV retinitis, toxoplasmosis).' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'Stage 2 HIV (clinical latency): key facts?',
+  a:'CD4 <strong>200–499 cells/μL</strong>. Often asymptomatic. Progressive CD4 decline. <strong>No AIDS-defining conditions</strong> in Stage 2 (ATI). May last 10+ years.' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'HIV: modes of transmission?',
+  a:'<ul><li>Sexual contact (blood, semen, vaginal fluid)</li><li>Blood/blood products (needle sharing, transfusions)</li><li>Mother to child (perinatal, breastfeeding)</li></ul>NOT transmitted: casual contact, sharing utensils, coughing, mosquitoes.' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'Two key lab markers for monitoring HIV progression?',
+  a:'<ul><li><strong>CD4 count:</strong> immune system status (normal >500; AIDS <200)</li><li><strong>Viral load:</strong> amount of HIV in blood — high viral load = active replication, poor prognosis</li></ul>' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'AIDS-defining opportunistic infections (common examples)?',
+  a:'<ul><li>PCP pneumonia (<em>Pneumocystis jirovecii</em>)</li><li>Kaposi\'s sarcoma</li><li>CMV retinitis</li><li>Toxoplasmosis (brain)</li><li>Cryptococcal meningitis</li><li>MAC (<em>Mycobacterium avium</em> complex)</li><li>Esophageal candidiasis</li></ul>' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'Priority patient education for newly diagnosed HIV client?',
+  a:'<ul><li>Antiretroviral therapy (ART) adherence — every dose, every day</li><li>Consistent condom use</li><li>Do not share needles</li><li>Inform sexual partners</li><li>Avoid raw foods/undercooked meat if CD4 low (neutropenic diet)</li><li>Regular lab monitoring (CD4, viral load)</li></ul>' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'What CD4 count triggers PCP prophylaxis?',
+  a:'CD4 count <strong><200 cells/μL</strong>. Prophylaxis: trimethoprim-sulfamethoxazole (TMP-SMX/Bactrim).' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'HIV and pregnancy: key nursing consideration?',
+  a:'Antiretroviral therapy <strong>MUST be continued during pregnancy</strong> to reduce perinatal transmission. C-section may be recommended if viral load is detectable. Breastfeeding is contraindicated (HIV in breast milk).' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'What defines the acute HIV syndrome (Stage 1)?',
+  a:'Flu-like illness 2–4 weeks after infection: fever, lymphadenopathy, rash, myalgia. <strong>High viral load, CD4 temporarily drops then recovers</strong>. Window period — may not yet test positive on antibody tests.' },
+
+{ cat:'hiv', catLabel:'HIV/AIDS',
+  q:'Psychosocial priorities for HIV clients?',
+  a:'<ul><li>Assess for depression and suicidal ideation</li><li>Support group referral</li><li>Maintain confidentiality</li><li>Address stigma and discrimination</li><li>Encourage disclosure to sexual partners</li><li>Assess support system</li></ul>' },
+
+// ─── INFECTION (10 cards) ─────────────────────────────────────────
+{ cat:'infection', catLabel:'Infection',
+  q:'Systemic vs localized infection: key differences?',
+  a:'<strong>Localized:</strong> redness, warmth, swelling, pain, purulent drainage at wound site<br><strong>Systemic:</strong> fever, tachycardia, tachypnea, elevated WBC, confusion, hypotension → may indicate SEPSIS' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Normal WBC range and what leukopenia/leukocytosis mean per ATI?',
+  a:'<strong>Normal: 5,000–10,000/mm³</strong><br><strong>Leukopenia: <4,000/mm³</strong> (infection risk)<br><strong>Leukocytosis: >10,000/mm³</strong> (infection, inflammation)' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Vancomycin: how to administer IV and what to prevent?',
+  a:'Infuse over <strong>at least 60 minutes</strong>. Prevents <strong>Red Man Syndrome</strong> (flushing, red rash on face/neck from rapid infusion). Monitor trough levels. Monitor BUN/creatinine (nephrotoxic).' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Gentamicin: peak and trough timing per ATI?',
+  a:'<ul><li><strong>Peak:</strong> 30 min AFTER IV infusion complete — assesses toxicity</li><li><strong>Trough:</strong> right BEFORE next scheduled dose — assesses effectiveness</li></ul>' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Healthcare-associated infection (HAI) risk factors?',
+  a:'<ul><li>Invasive devices (urinary catheter, central line, ventilator)</li><li>Prolonged hospitalization</li><li>Immunosuppression</li><li>Antibiotics (alter normal flora)</li><li>Surgical procedures</li><li>Poor hand hygiene</li></ul>' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'What isolation precautions for MRSA, VRE, C. diff, TB, measles?',
+  a:'<ul><li><strong>MRSA/VRE:</strong> Contact precautions (gown + gloves)</li><li><strong>C. diff:</strong> Contact precautions — use soap and water (not hand sanitizer)</li><li><strong>TB:</strong> Airborne precautions (N95 mask, negative pressure room)</li><li><strong>Measles:</strong> Airborne + Contact</li></ul>' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Stages of infection in order?',
+  a:'<div class="mnemonic">1. <strong>Incubation</strong> — pathogen entering, no symptoms yet<br>2. <strong>Prodromal</strong> — vague nonspecific symptoms<br>3. <strong>Illness</strong> — full symptoms<br>4. <strong>Convalescence</strong> — recovery</div>' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Common aminoglycoside (gentamicin) side effects to monitor?',
+  a:'<ul><li><strong>Ototoxicity:</strong> tinnitus, hearing loss, vestibular damage (may be irreversible) — baseline hearing test</li><li><strong>Nephrotoxicity:</strong> monitor BUN, creatinine, I&O</li></ul>' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Neutropenic fever: ATI criteria and action?',
+  a:'ANC <strong><1,000/mm³</strong> initiates neutropenic precautions. Report fever <strong>>37.8°C (100°F)</strong> to provider IMMEDIATELY. Draw blood cultures → then broad-spectrum antibiotics. Medical emergency.' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Standard precautions: what do they include?',
+  a:'Apply with ALL clients regardless of diagnosis:<ul><li>Hand hygiene</li><li>Gloves when touching blood/body fluids</li><li>Gown if splash risk</li><li>Mask/eye protection for aerosol risk</li><li>Safe sharps disposal</li><li>Respiratory hygiene/cough etiquette</li></ul>' },
+
+// ─── ANTICOAGULANTS (10 cards) ────────────────────────────────────
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Heparin: therapeutic aPTT goal per ATI?',
+  a:'<strong>60–80 seconds</strong> (ATI Pharm Ch.25). Monitor aPTT every 4–6 hours initially. Antidote: <strong>protamine sulfate</strong>.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Warfarin: therapeutic INR and antidotes?',
+  a:'<strong>INR goal: 2–3</strong> (standard). Antidotes:<ul><li>Vitamin K₁ (phytonadione) — for non-emergent reversal</li><li>Fresh Frozen Plasma (FFP) — for emergent/bleeding reversal</li></ul>' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'HIT (Heparin-Induced Thrombocytopenia): criteria and action?',
+  a:'Platelet count drops <strong><100,000/mm³</strong> after 5–10 days of heparin, with paradoxical CLOTTING (white clot syndrome). Action: <strong>STOP all heparin immediately</strong> (including flushes). Switch to argatroban or bivalirudin.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Heparin SubQ injection technique per ATI?',
+  a:'<ul><li>Inject into <strong>abdomen</strong>, 2 inches from navel</li><li><strong>Do NOT aspirate</strong></li><li><strong>Do NOT rub</strong> the site — apply gentle pressure 1–2 min</li><li>Rotate sites</li></ul>' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Enoxaparin (Lovenox): key admin technique?',
+  a:'Prefilled syringe: <strong>do NOT expel the air bubble</strong> (pre-measured dose — expelling causes medication loss). SubQ abdomen. Do not aspirate. Monitor anti-Xa levels (not aPTT).' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Warfarin: foods that decrease INR (reduce anticoagulation)?',
+  a:'<strong>Vitamin K-rich foods</strong> decrease INR (make warfarin less effective): leafy greens (kale, spinach, collards). Client should maintain a CONSISTENT intake — not eliminate these foods completely.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Aspirin before elective surgery: hold for how long per ATI?',
+  a:'<strong>1 week (7 days)</strong> before elective surgery per ATI Ch.95 to reduce bleeding risk.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Direct oral anticoagulants (DOACs): examples?',
+  a:'<ul><li><strong>Direct thrombin inhibitor:</strong> dabigatran (Pradaxa)</li><li><strong>Factor Xa inhibitors:</strong> apixaban (Eliquis), rivaroxaban (Xarelto)</li></ul>Advantages: no INR monitoring, fewer drug interactions. Reversal: idarucizumab (dabigatran), andexanet alfa (Xa inhibitors).' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Warfarin: drug interactions that INCREASE bleeding risk?',
+  a:'<ul><li>Aspirin and NSAIDs</li><li>Antibiotics (alter gut flora → less vitamin K)</li><li>Amiodarone, fluconazole, cimetidine (inhibit metabolism)</li></ul>Monitor INR closely when adding new medications.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'DVT prevention (VTE prophylaxis): nursing measures?',
+  a:'<ul><li>Sequential compression devices (SCDs)</li><li>Anticoagulants (enoxaparin, heparin, warfarin)</li><li>Early ambulation</li><li>Elevation of lower extremities</li><li>TED hose/compression stockings</li></ul>' },
+
+// ─── ANEMIA (8 cards) ─────────────────────────────────────────────
+{ cat:'anemia', catLabel:'Anemia',
+  q:'Iron deficiency anemia: iron supplement teaching per ATI?',
+  a:'<ul><li>Take <strong>between meals</strong> if tolerated (ATI)</li><li>Vitamin C <strong>enhances</strong> absorption</li><li>Stools will be <strong>green to black</strong> — NORMAL</li><li>Avoid: milk, antacids, calcium (inhibit absorption)</li></ul>' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'Pernicious anemia: cause and treatment?',
+  a:'Lack of <strong>intrinsic factor</strong> from gastric parietal cells → cannot absorb B12 in ileum. Treatment: <strong>IM or SQ vitamin B12 injections</strong> (bypasses GI absorption problem). Lifelong therapy.' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'Vitamin B12 deficiency: neurological signs?',
+  a:'<ul><li>Smooth, sore, <strong>bright red tongue</strong> (glossitis)</li><li>Peripheral neuropathy (numbness/tingling)</li><li>Ataxia (balance problems)</li><li>Confusion, dementia</li></ul>Also: megaloblastic (macrocytic) anemia.' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'Sickle cell crisis: triggers and priority treatment?',
+  a:'<strong>Triggers:</strong> dehydration, infection, cold, hypoxia, stress, high altitude.<br><strong>Treatment:</strong> IV fluids (hydration), oxygen, opioid analgesics for pain, rest. Hydroxyurea reduces sickling.' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'Epoetin alfa (erythropoietin): Hgb threshold per ATI?',
+  a:'Decrease dosage when Hgb reaches <strong>≥11 g/dL</strong>. Too-rapid rise (>1 g/dL over 2 weeks) also requires dose reduction. Monitor Hgb weekly. Requires adequate iron stores to be effective. Refrigerate.' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'General signs and symptoms of anemia?',
+  a:'<ul><li>Fatigue, weakness</li><li>Pallor (skin, conjunctiva, nail beds)</li><li>Tachycardia, palpitations</li><li>Shortness of breath on exertion</li><li>Dizziness, headache</li><li>Cold intolerance</li></ul>' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'Foods high in iron?',
+  a:'<ul><li>Red meat, liver</li><li>Dark leafy greens (spinach, kale)</li><li>Legumes (beans, lentils)</li><li>Fortified cereals</li><li>Tofu</li><li>Pumpkin seeds</li></ul>Pair with vitamin C to enhance non-heme iron absorption.' },
+
+{ cat:'anemia', catLabel:'Anemia',
+  q:'MCV in anemia: what does low vs high mean?',
+  a:'<ul><li><strong>Low MCV (microcytic):</strong> iron deficiency, thalassemia</li><li><strong>Normal MCV (normocytic):</strong> blood loss, hemolytic, aplastic, CKD</li><li><strong>High MCV (macrocytic/megaloblastic):</strong> B12 deficiency, folic acid deficiency</li></ul>' },
+
+// ─── RESPIRATORY (12 cards) ───────────────────────────────────────
+{ cat:'resp', catLabel:'Respiratory',
+  q:'COPD: diagnostic criteria and target SpO₂?',
+  a:'<strong>Diagnosis:</strong> FEV1/FVC ratio <strong><0.70</strong> post-bronchodilator (spirometry).<br><strong>SpO₂ target: 88–92%</strong> — avoid suppressing hypoxic drive in chronic CO₂ retainers.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Albuterol vs fluticasone: which first and key teaching?',
+  a:'<strong>Albuterol FIRST</strong> (opens airways), then fluticasone. After fluticasone: <strong>RINSE MOUTH</strong> to prevent oral candidiasis (thrush). Albuterol = rescue/SABA. Fluticasone = maintenance/corticosteroid.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Asthma: FEV1 increase indicating reversibility?',
+  a:'Increase in FEV1 by <strong>≥12%</strong> following bronchodilator administration = reversible airway obstruction = asthma diagnosis confirmed (ATI Ch.21).' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Peak flow zones for asthma management?',
+  a:'<ul><li><strong>Green (80–100%):</strong> good control, continue plan</li><li><strong>Yellow (50–79%):</strong> caution, use rescue inhaler</li><li><strong>Red (<50%):</strong> emergency — use reliever and seek care immediately</li></ul>' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'TB: transmission, treatment duration, and isolation type?',
+  a:'<strong>Transmission:</strong> airborne (droplet nuclei).<br><strong>Isolation:</strong> Airborne precautions (N95 mask, negative pressure room).<br><strong>Treatment:</strong> RIPE therapy × 6 months (rifampin, isoniazid, pyrazinamide, ethambutol).' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Pneumonia: cultures before antibiotics — why?',
+  a:'Blood and sputum cultures must be obtained <strong>BEFORE</strong> first antibiotic dose to identify the causative organism and sensitivity pattern. Antibiotics can then be started while awaiting results.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'MDI inhaler technique: correct sequence?',
+  a:'<div class="mnemonic">1. Shake inhaler<br>2. Exhale fully<br>3. Place mouthpiece in mouth or 1–2 inches away<br>4. Begin SLOW inhalation → press canister<br>5. Inhale over 3–5 seconds<br>6. Hold breath 10 seconds<br>7. Wait 1 min between puffs</div>' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Pneumonia: signs and symptoms?',
+  a:'<ul><li>Productive cough (purulent/rust-colored sputum)</li><li>Fever, chills</li><li>Pleuritic chest pain</li><li>Decreased breath sounds, crackles at base</li><li>Tachypnea, dyspnea</li><li>Dullness on percussion over consolidation</li></ul>' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Asthma attack signs: when is it severe/life-threatening?',
+  a:'"<strong>Silent chest</strong>" — absence of wheezing in a severe asthma attack = DANGER sign (airway so constricted, no air movement). Also: cyanosis, inability to speak, altered LOC. Call 911.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'COPD exacerbation priority interventions?',
+  a:'<ul><li>Low-flow oxygen (maintain SpO₂ 88–92%)</li><li>Albuterol (SABA) nebulizer</li><li>Ipratropium (anticholinergic)</li><li>Corticosteroids (IV/oral)</li><li>Positioning: high Fowler\'s or tripod</li><li>Antibiotics if bacterial</li></ul>' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Isoniazid (INH) for TB: major side effect to monitor?',
+  a:'<strong>Peripheral neuropathy</strong> — give <strong>pyridoxine (vitamin B6)</strong> concurrently to prevent. Also monitor for hepatotoxicity (elevated LFTs). Avoid alcohol. Urine may turn orange-red (rifampin).' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Sleep apnea: priority teaching?',
+  a:'<ul><li>Use CPAP every night — compliance is essential</li><li>Avoid alcohol and sedatives (worsen apnea)</li><li>Side-sleeping position</li><li>Weight loss (if obese)</li><li>Avoid driving when sleepy</li></ul>' },
+
+// ─── ACID-BASE (8 cards) ──────────────────────────────────────────
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'Normal ABG values per ATI?',
+  a:'<ul><li><strong>pH:</strong> 7.35–7.45</li><li><strong>PaCO₂:</strong> 35–45 mmHg</li><li><strong>HCO₃:</strong> 22–26 mEq/L</li><li><strong>PaO₂:</strong> 80–100 mmHg</li></ul>' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'4-step ABG interpretation method?',
+  a:'<div class="mnemonic">1. <strong>pH</strong>: <7.35 = acidosis; >7.45 = alkalosis<br>2. <strong>PaCO₂</strong>: >45 = acidosis (resp); <35 = alkalosis (resp)<br>3. <strong>HCO₃</strong>: <22 = acidosis (met); >26 = alkalosis (met)<br>4. <strong>Compensation?</strong>: if other value moved in same direction to fix pH</div>' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'Common causes of respiratory acidosis?',
+  a:'<strong>Hypoventilation</strong> → CO₂ retention:<ul><li>COPD</li><li>Drug overdose/sedation</li><li>Pneumonia (severe)</li><li>Neuromuscular disease (Guillain-Barré)</li><li>Airway obstruction</li></ul>' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'Common causes of metabolic acidosis?',
+  a:'<ul><li>DKA (most common tested)</li><li>Renal failure</li><li>Diarrhea (loses HCO₃)</li><li>Aspirin overdose</li><li>Lactic acidosis (shock)</li></ul>Compensation: Kussmaul respirations (blow off CO₂).' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'Common causes of metabolic alkalosis?',
+  a:'<ul><li>Prolonged vomiting (loses HCl)</li><li>Nasogastric suction</li><li>Thiazide/loop diuretics (K⁺ loss)</li><li>Excessive bicarbonate</li></ul>Compensation: slow shallow breathing (retain CO₂).' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'Respiratory alkalosis: common causes?',
+  a:'<strong>Hyperventilation</strong> → blow off CO₂:<ul><li>Anxiety, panic attack</li><li>Pain</li><li>High altitude</li><li>Mechanical ventilation (set too fast)</li><li>Fever, sepsis (early)</li></ul>' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'What is Kussmaul breathing and what acid-base disorder is it associated with?',
+  a:'Deep, rapid, labored respirations. Compensation for <strong>metabolic acidosis</strong> — the body blows off CO₂ to raise pH. Classic in DKA.' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'Compensation: what does "fully compensated" mean?',
+  a:'pH has <strong>returned to normal range</strong> (7.35–7.45) but both PaCO₂ AND HCO₃ are abnormal. The compensating system has corrected the pH back to normal. <em>Partially compensated</em> = pH still abnormal.' },
+
+// ─── ELECTROLYTES (10 cards) ──────────────────────────────────────
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Normal electrolyte values per ATI?',
+  a:'<ul><li><strong>Na⁺:</strong> 136–145 mEq/L</li><li><strong>K⁺:</strong> 3.5–5.0 mEq/L</li><li><strong>Ca²⁺:</strong> 9.0–10.5 mg/dL</li><li><strong>Mg²⁺:</strong> 1.3–2.1 mEq/L</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Hypokalemia: signs and symptoms?',
+  a:'<ul><li>Muscle weakness, cramps, fatigue</li><li>Constipation, paralytic ileus</li><li>ECG: flat/inverted T waves, U waves</li><li>Hypotension</li><li>Digoxin toxicity risk (hypokalemia potentiates digoxin)</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Hyperkalemia: signs and priority treatments?',
+  a:'<strong>Signs:</strong> peaked T waves, weak/absent pulse, weakness, cardiac arrest<br><strong>Treatment:</strong><ul><li>Calcium gluconate (stabilizes cardiac membrane — FIRST for cardiac symptoms)</li><li>Insulin + dextrose (shifts K⁺ into cells)</li><li>Kayexalate (eliminates K⁺)</li><li>Dialysis (severe)</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'IV potassium: critical nursing considerations?',
+  a:'<ul><li>NEVER give IV bolus (fatal cardiac arrest)</li><li>Maximum concentration: 1 mEq/mL</li><li>Must be diluted in IV fluid</li><li>Ensure adequate urine output before giving</li><li>Monitor cardiac rhythm</li><li>Never give IM or SubQ</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Hypocalcemia: signs and how to assess?',
+  a:'<ul><li><strong>Trousseau\'s sign:</strong> carpal spasm with BP cuff inflation</li><li><strong>Chvostek\'s sign:</strong> facial twitch with tapping near ear</li><li>Tetany, seizures</li><li>Muscle cramps</li></ul>Ca <9.0 mg/dL per ATI.' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'IV fluid types: isotonic, hypotonic, hypertonic — examples and uses?',
+  a:'<ul><li><strong>Isotonic</strong> (0.9% NS, LR): FVD, hypovolemia, blood loss</li><li><strong>Hypotonic</strong> (0.45% NS): cellular dehydration, hypernatremia</li><li><strong>Hypertonic</strong> (3% NS, D10W): severe hyponatremia, IICP</li><li><strong>D5W:</strong> isotonic in bag, hypotonic in body — free water replacement</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Fluid volume deficit (FVD): signs and symptoms?',
+  a:'<ul><li>Tachycardia, hypotension, orthostatic hypotension</li><li>Poor skin turgor</li><li>Dry mucous membranes</li><li>Sunken eyeballs, flat neck veins</li><li>Oliguria (<30 mL/hr)</li><li>Elevated BUN and hematocrit</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Fluid volume excess (FVE): signs and symptoms?',
+  a:'<ul><li>Crackles, dyspnea</li><li>Peripheral edema</li><li>Weight gain (1 kg = 1 L fluid)</li><li>JVD (jugular vein distension)</li><li>HTN, bounding pulse</li><li>Decreased BUN/hematocrit (dilution)</li></ul>' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Hypomagnesemia: common cause and signs?',
+  a:'<strong>Causes:</strong> alcoholism, malnutrition, diuretics, prolonged NGT suctioning.<br><strong>Signs:</strong> tremors, muscle weakness, irritability, dysrhythmias, positive Trousseau\'s and Chvostek\'s (similar to hypocalcemia, often coexist).' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Weight-based fluid monitoring: what does 1 kg of weight change represent?',
+  a:'<strong>1 kg of body weight = 1 liter of fluid</strong>. Daily weights are the most accurate method to assess fluid status. Same time, same scale, same clothing each day.' },
+
+// ─── PERIOPERATIVE (8 cards) ──────────────────────────────────────
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Aldrete scoring for PACU discharge criteria?',
+  a:'Score of <strong>8–10</strong> required for discharge from PACU (per ATI Ch.96). Assesses: activity, respiration, circulation, consciousness, oxygen saturation. Max score = 10.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Surgical "time-out": what is it and when?',
+  a:'Verification process performed <strong>immediately BEFORE skin incision</strong>. Confirms: correct client, correct procedure, correct site, correct position, correct implants. All team members must actively participate and agree.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Medications to hold before surgery per ATI?',
+  a:'<ul><li><strong>Aspirin/NSAIDs:</strong> 1 week before (bleeding)</li><li><strong>Anticoagulants:</strong> per provider order</li><li><strong>Metformin:</strong> 24–48 hr before if contrast used</li><li><strong>Herbals:</strong> ask provider (no specific ATI hold time)</li><li><strong>Some antihypertensives, insulin:</strong> per order</li></ul>' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Post-op: preventing atelectasis?',
+  a:'<ul><li><strong>Incentive spirometry</strong> every 1–2 hours</li><li>Deep breathing and coughing exercises</li><li>Early ambulation</li><li>Position changes</li><li>Adequate pain management (splint incision when coughing)</li></ul>' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Wound dehiscence vs evisceration?',
+  a:'<ul><li><strong>Dehiscence:</strong> wound edges separate</li><li><strong>Evisceration:</strong> organs protrude through wound — EMERGENCY</li></ul>For evisceration: cover with <strong>saline-moistened sterile gauze</strong>, position in semi-Fowler\'s with knees bent, call provider, NPO.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Pre-op teaching: what must be completed?',
+  a:'<ul><li>Informed consent (provider\'s responsibility — nurse witnesses)</li><li>NPO status (typically nothing after midnight)</li><li>Deep breathing/incentive spirometry teaching</li><li>Leg exercises and ambulation</li><li>Pain management plan</li><li>Expected post-op routine</li></ul>' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Post-op DVT and PE prevention?',
+  a:'<ul><li>Sequential compression devices (SCDs) before surgery</li><li>Anticoagulant therapy (enoxaparin/heparin)</li><li>Early ambulation</li><li>TED hose</li><li>Adequate hydration</li></ul>PE signs: sudden onset dyspnea, chest pain, tachycardia, hemoptysis.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Spinal anesthesia: major complications to monitor?',
+  a:'<ul><li><strong>Hypotension</strong> (vasodilation — most common)</li><li><strong>Spinal headache</strong> (CSF leak — treated with blood patch)</li><li>Urinary retention</li><li>Respiratory depression (if level is too high)</li></ul>Position flat post-procedure to prevent headache.' },
+
+// ─── ONCOLOGY (8 cards) ───────────────────────────────────────────
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Benign vs malignant cells: key differences?',
+  a:'<ul><li><strong>Benign:</strong> well-differentiated, slow growth, encapsulated, does NOT metastasize</li><li><strong>Malignant:</strong> poorly differentiated, rapid growth, invasive, METASTASIZES</li></ul>' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Extravasation: signs and immediate action?',
+  a:'<strong>Signs:</strong> burning/pain at IV site, swelling, pale/cool skin around site, no blood return.<br><strong>Action: STOP infusion IMMEDIATELY</strong> → follow facility extravasation protocol → may include antidote injection depending on drug.' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Radiation skin care per ATI (3 key rules)?',
+  a:'<ul><li>Do <strong>NOT wash off</strong> radiation tattoo markings</li><li>Do <strong>NOT apply</strong> powders, ointments, lotions, deodorants, or perfumes</li><li>Do <strong>NOT expose</strong> to sun or heat source</li></ul>Wash gently with mild soap and water using hand (not washcloth).' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Neutropenic diet: what is allowed and not allowed?',
+  a:'<strong>Avoid:</strong> raw fruits/vegetables, undercooked meat, unwashed produce, foods from buffets, deli meats.<br><strong>Allowed:</strong> well-cooked foods, pasteurized products, canned goods.<br>Goal: reduce infection risk from food-borne pathogens.' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Thrombocytopenia: platelet count threshold and nursing actions?',
+  a:'Platelets <strong><50,000/mm³</strong> → increased bleeding risk.<br><strong>Nursing:</strong> no IM injections, no rectal temps, soft toothbrush, electric razor, avoid ASA/NSAIDs, fall precautions, apply pressure after venipuncture.' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Chemo side effects: alopecia teaching?',
+  a:'Hair loss is usually <strong>temporary</strong> — hair regrows after treatment ends (may grow back different texture/color). May use wigs, scarves. Wear head coverings outdoors for sun protection and warmth.' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Mucositis: nursing interventions?',
+  a:'<ul><li>Non-alcoholic anesthetic mouthwash</li><li>Soft foods, cool foods (soothing)</li><li>Avoid glycerin-based swabs</li><li>Avoid alcohol and tobacco</li><li>Good oral hygiene with soft brush</li><li>Assess for infection (Candida, herpes)</li></ul>' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Cancer prevention: primary vs secondary?',
+  a:'<ul><li><strong>Primary:</strong> prevent cancer from occurring (sunscreen, no tobacco, HPV vaccine, healthy diet)</li><li><strong>Secondary:</strong> early detection through screening (colonoscopy, mammogram, Pap smear, PSA)</li></ul>' },
+
+// ─── DIABETES (12 cards) ──────────────────────────────────────────
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Insulin types: onset, peak, duration per ATI?',
+  a:'<ul><li><strong>Rapid (lispro/aspart):</strong> 15–30 min / 0.5–3 hr / 3–5 hr</li><li><strong>Short/Regular:</strong> 0.5–1 hr / 1–5 hr / 6–10 hr</li><li><strong>Intermediate (NPH):</strong> 1–2 hr / 4–14 hr / 14–24 hr</li><li><strong>Long (glargine):</strong> 1–4 hr / NO peak / 24 hr</li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'DKA treatment priority order?',
+  a:'<div class="mnemonic">1. <strong>IV Fluids</strong> (0.9% NS — rehydration is FIRST)<br>2. <strong>Regular insulin</strong> IV infusion<br>3. <strong>Potassium replacement</strong> (when K⁺ <5.0 and UO adequate)<br>4. Add <strong>D5W when BG reaches 250 mg/dL</strong></div>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Hypoglycemia: Rule of 15?',
+  a:'<strong>Conscious client:</strong> 15g carbohydrate (4 oz OJ, 8 oz milk, glucose tablets). Recheck in 15 min. Repeat if still <70 mg/dL.<br><strong>Unconscious client:</strong> glucagon IM/SubQ or D50 IV — do NOT give oral.' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Signs of hypoglycemia vs hyperglycemia?',
+  a:'<strong>Hypoglycemia (<70):</strong> sudden onset, diaphoresis, tremors, palpitations, anxiety, confusion, pallor<br><strong>Hyperglycemia:</strong> gradual onset, polyuria, polydipsia, polyphagia, fatigue, blurred vision, fruity breath (DKA)' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'NPH insulin: critical teaching?',
+  a:'<ul><li><strong>CLOUDY</strong> — roll gently, NEVER shake</li><li>Check for clumps or particles</li><li>Peak 4–14 hours — risk for hypoglycemia</li><li>Given twice daily</li><li>When mixing: draw clear insulin first, then NPH</li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Metformin: key nursing considerations per ATI?',
+  a:'<ul><li>Take with MEALS (reduces GI upset)</li><li>Hold 24–48 hr before iodine-contrast procedures (risk of acute kidney failure)</li><li>Contraindicated in renal insufficiency</li><li>Lactic acidosis risk</li><li>Pregnancy Category B</li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Diabetes diagnostic criteria (any one is sufficient)?',
+  a:'<ul><li>Fasting blood glucose <strong>≥126 mg/dL</strong></li><li>Random glucose <strong>≥200 mg/dL</strong> + symptoms</li><li>2-hr OGTT glucose <strong>≥200 mg/dL</strong></li><li>HbA1c <strong>≥6.5%</strong></li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'DKA lab findings?',
+  a:'<ul><li>Blood glucose >250 mg/dL</li><li>pH <7.30 (metabolic acidosis)</li><li>HCO₃ <18 mEq/L</li><li>Positive urine/serum ketones</li><li>Na⁺ may be low, K⁺ initially HIGH (cells release K⁺)</li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Insulin injection: what to do if mixing regular and NPH?',
+  a:'Draw up <strong>CLEAR (regular) insulin first</strong>, then CLOUDY (NPH). Mnemonic: "Clear before cloudy." Rolling NPH first contaminates the regular insulin vial with NPH if the needle goes back in.' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Diabetic foot care teaching?',
+  a:'<ul><li>Inspect feet DAILY (mirror for bottom)</li><li>Wash feet daily, dry between toes</li><li>Never go barefoot</li><li>Wear properly fitting shoes</li><li>Do not cut corns/calluses</li><li>Cut toenails straight across</li><li>Avoid heating pads (neuropathy = can\'t feel burns)</li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Why switch to D5W when BG reaches 250 in DKA?',
+  a:'Insulin must CONTINUE to resolve the <strong>acidosis</strong> (not just lower glucose). Adding dextrose prevents hypoglycemia while insulin continues working. Goal: BG ≤200 mg/dL AND resolution of acidosis (normalize pH and HCO₃).' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'HbA1c: what does it measure and why is it important?',
+  a:'Reflects <strong>average blood glucose over the past 2–3 months</strong>. Measured every 3 months in diabetes management. Goal: <strong><7%</strong> for most diabetics. Best long-term indicator of glucose control.' },
+
+// ─── CARDIAC / HTN / PVD (12 cards) ──────────────────────────────
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Cardiac biomarkers for MI: order and clearance per ATI?',
+  a:'<ul><li><strong>Myoglobin:</strong> earliest marker; gone after 24 hr</li><li><strong>CK-MB:</strong> peaks ~24 hr; gone by 3 days — best for reinfarction</li><li><strong>Troponin I:</strong> gone after 7–10 days</li><li><strong>Troponin T:</strong> gone after 10–14 days — confirms MI up to 2 weeks</li></ul>' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Angina vs MI: duration that differentiates them?',
+  a:'Pain unrelieved by rest or nitroglycerin lasting <strong>>15 minutes</strong> differentiates MI from angina (per ATI Ch.31). Angina typically resolves with rest or 1–3 SL nitroglycerin tablets.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Nitroglycerin SL protocol per ATI?',
+  a:'1. Stop activity, sit/lie down.<br>2. Place 1 SL tablet under tongue.<br>3. Rest 5 min.<br>4. If unrelieved → <strong>call 911 THEN take 2nd tablet</strong>.<br>5. If still unrelieved 5 min later → take 3rd tablet.<br><strong>Maximum: 3 tablets.</strong>' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'HTN classification per ATI?',
+  a:'<ul><li><strong>Normal:</strong> <120/<80</li><li><strong>Elevated:</strong> 120–129/<80</li><li><strong>Stage 1:</strong> 130–139/80–89</li><li><strong>Stage 2:</strong> ≥140/≥90</li><li><strong>Crisis:</strong> >180/>120</li></ul>' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'HCTZ (hydrochlorothiazide): side effects?',
+  a:'<ul><li><strong>Hypokalemia</strong> (K⁺ wasting — most important)</li><li>Hyponatremia</li><li>Hyperglycemia</li><li>Hyperuricemia (gout trigger)</li><li>Hypercalcemia</li><li>Photosensitivity</li></ul>Take in MORNING. Eat K⁺-rich foods.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'PAD vs Venous disease: leg position differences?',
+  a:'<ul><li><strong>PAD (arterial):</strong> legs DEPENDENT/down → improves arterial flow by gravity. Elevating worsens pain. Ulcers on toes.</li><li><strong>Venous:</strong> legs ELEVATED → improves venous return. Compression stockings. Medial ankle ulcers.</li></ul>' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Digoxin: hold criteria and toxicity signs?',
+  a:'<strong>Hold if apical HR <60/min</strong> (adults). Toxicity signs: yellow-green visual halos, nausea/vomiting, bradycardia, arrhythmias. Hypokalemia increases toxicity risk. Monitor digoxin levels and potassium.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'TURP with CBI: bright red blood → what action per ATI?',
+  a:'<strong>Increase the CBI rate</strong> to dilute and clear the bleeding. Contact surgeon only if bleeding is unresponsive to increased CBI rate or clot cannot be dislodged (ATI Ch.66).' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'CBI output calculation?',
+  a:'<strong>Actual urine output = Total catheter drainage − Irrigation instilled</strong>. Monitor hourly. Report output <30 mL/hr. This calculation is critical on dosage/math questions.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Lisinopril (ACE inhibitor): key side effects?',
+  a:'<ul><li><strong>Dry, persistent cough</strong> (most common — related to bradykinin accumulation)</li><li>Hyperkalemia (potassium retention)</li><li>Angioedema (STOP medication — life-threatening swelling)</li><li>Hypotension (first dose effect)</li></ul>' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Atorvastatin: key nursing considerations?',
+  a:'<ul><li>Avoid <strong>grapefruit juice</strong> (CYP3A4 inhibition → toxicity)</li><li><strong>Evening dosing</strong> preferred</li><li>Pregnancy Category <strong>X</strong> — teratogenic</li><li>Monitor liver function tests</li><li>Report muscle pain/weakness (rhabdomyolysis risk)</li></ul>' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Types of angina: stable, unstable, Prinzmetal\'s?',
+  a:'<ul><li><strong>Stable:</strong> predictable with exertion; relieved by rest/NTG</li><li><strong>Unstable:</strong> occurs at rest or with minimal activity; more severe; requires urgent evaluation</li><li><strong>Prinzmetal\'s (variant):</strong> coronary artery vasospasm; occurs at rest; treated with calcium channel blockers</li></ul>' },
+
+// ─── MSK (10 cards) ───────────────────────────────────────────────
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Compartment syndrome: 5 Ps per ATI?',
+  a:'<div class="mnemonic"><strong>P</strong>ain (disproportionate, unrelieved by analgesics — CARDINAL SIGN)<br><strong>P</strong>aresthesia (numbness/tingling — early)<br><strong>P</strong>allor<br><strong>P</strong>ulselessness (late)<br><strong>P</strong>aralysis (late)</div>Treatment: fasciotomy. Do NOT elevate.' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Fat embolism: when does it occur and what are signs per ATI?',
+  a:'Occurs within <strong>12–48 hours</strong> of long bone fracture or orthopedic surgery.<br><strong>Signs:</strong> petechial rash (axillae/chest), dyspnea, confusion, hypoxia. A triad: <strong>respiratory distress + confusion + petechiae</strong>.' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Traction nursing: key rules?',
+  a:'<ul><li>Maintain continuous traction — weights must hang freely</li><li>Never remove weights without MD order</li><li>Keep body in proper alignment (countertraction)</li><li>Assess neurovascular status (5 Ps)</li><li>Prevent foot drop</li><li>Prevent skin breakdown at traction sites</li></ul>' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Soft tissue injury (PRICE) treatment?',
+  a:'<div class="mnemonic"><strong>P</strong>rotection<br><strong>R</strong>est<br><strong>I</strong>ce (20 min on/off, first 24–48 hr)<br><strong>C</strong>ompression<br><strong>E</strong>levation (above heart level)</div>' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Cast care: key nursing points?',
+  a:'<ul><li>Do not stick objects inside cast</li><li>Keep cast dry (unless waterproof)</li><li>Assess neurovascular status (5 Ps) every hour initially</li><li>Elevate above heart 24–48 hours</li><li>Petal the cast edges to prevent skin breakdown</li><li>Report increasing pain, numbness, pale/cool extremity immediately</li></ul>' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'ORIF (open reduction internal fixation) post-op priority assessments?',
+  a:'<ul><li>Neurovascular checks (5 Ps) every 1–2 hr</li><li>Wound drainage/bleeding</li><li>Pain management</li><li>DVT prevention (SCDs, anticoagulants, ambulation)</li><li>Infection prevention (aseptic technique)</li><li>Position/mobility restrictions per surgeon orders</li></ul>' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Carpal tunnel syndrome: signs and treatment?',
+  a:'<strong>Signs:</strong> pain/numbness/tingling in thumb, index, middle fingers; worse at night; positive Phalen\'s and Tinel\'s tests.<br><strong>Treatment:</strong> wrist splinting (neutral position), NSAIDs, corticosteroid injection, surgery (carpal tunnel release).' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Hip precautions after total hip arthroplasty (posterior approach)?',
+  a:'<div class="mnemonic">No: <strong>A</strong>dduction · <strong>I</strong>nternal rotation · <strong>F</strong>lexion >90°</div>Keep: pillow between legs, raised toilet seat, do not cross legs.' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Amputation: stump care?',
+  a:'<ul><li>Figure-8 wrapping to shape stump</li><li>Elevate stump first 24 hr (prevents edema), then flatten</li><li>Phantom limb pain is REAL — address with analgesics</li><li>Monitor for hemorrhage (bright red drainage)</li><li>Range of motion of residual limb</li></ul>' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Open fracture: priority nursing concern?',
+  a:'<strong>Infection risk</strong> — bone is exposed to environment. Cleanse wound, apply sterile dressing, IV antibiotics, tetanus prophylaxis, surgical debridement. Also assess for: neurovascular compromise, blood loss.' },
+
+// ─── GENITOURINARY (10 cards) ─────────────────────────────────────
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Kidney stones: diet modifications based on stone type?',
+  a:'<ul><li><strong>All types:</strong> fluids 3 L/day (ATI)</li><li><strong>Calcium oxalate (most common):</strong> limit oxalate (spinach, nuts, chocolate, tea); adequate calcium</li><li><strong>Uric acid:</strong> limit purines (red meat, organ meats, shellfish); alkaline urine</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Cystitis vs pyelonephritis: key differences?',
+  a:'<ul><li><strong>Cystitis (lower UTI):</strong> dysuria, frequency, urgency, suprapubic pain, no fever/systemic signs</li><li><strong>Pyelonephritis (upper UTI):</strong> CVA tenderness, HIGH fever, chills, nausea/vomiting, flank/back pain — systemic signs</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Types of urinary incontinence?',
+  a:'<ul><li><strong>Stress:</strong> leakage with coughing/laughing/sneezing — Kegel exercises</li><li><strong>Urge:</strong> sudden strong urge — bladder training, oxybutynin</li><li><strong>Overflow:</strong> overdistended bladder, dribbling — common in BPH</li><li><strong>Functional:</strong> cognitive/mobility barrier</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'BPH: signs, symptoms, and common medication?',
+  a:'<strong>Signs:</strong> urinary hesitancy, weak stream, nocturia, incomplete emptying, post-void dribbling.<br><strong>Medication:</strong> Tamsulosin (alpha-1 blocker) — relaxes smooth muscle in prostate/bladder neck. Side effect: orthostatic hypotension.' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Post-TURP CBI: how to calculate actual urine output?',
+  a:'<strong>Actual urine output = Total catheter drainage − Irrigant instilled</strong>. Normal UO ≥30 mL/hr. Bright red drainage with clots → increase CBI rate (ATI). Contact surgeon if unresponsive.' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'UTI prevention teaching?',
+  a:'<ul><li>Wipe front to back</li><li>Void after intercourse</li><li>Adequate fluid intake</li><li>Avoid bubble baths/harsh soaps</li><li>Wear cotton underwear</li><li>Avoid urinary catheter when possible</li><li>Cranberry products (may help, not definitive)</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Post-cystoscopy nursing care?',
+  a:'<ul><li>Increase fluid intake (flush bladder)</li><li>Expect pink-tinged urine for 24 hours (NORMAL)</li><li>Report bright red urine, clots, fever, severe pain</li><li>Warm sitz baths for discomfort</li><li>Take prescribed antibiotics</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Kidney stone: renal colic — nursing interventions?',
+  a:'<ul><li><strong>Pain:</strong> opioids + NSAIDs + alpha-blockers (tamsulosin relaxes ureter)</li><li><strong>Fluids:</strong> 3 L/day orally</li><li><strong>STRAIN all urine</strong> and send stone to lab for analysis</li><li>Ambulation helps stone passage</li><li>Monitor for fever/signs of obstruction</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'ESWL (shock wave lithotripsy) post-procedure care?',
+  a:'<ul><li>Expect hematuria for 24 hours — NORMAL</li><li>Increase oral fluids to flush fragments</li><li>Strain urine to collect stone fragments</li><li>Monitor for infection (fever)</li><li>Resume normal diet unless high-risk stone type</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Interstitial cystitis: how is it different from regular cystitis?',
+  a:'Chronic pelvic/bladder pain WITHOUT infection — negative urine cultures. Symptoms similar to UTI (frequency, urgency, pain) but antibiotics don\'t help. Treatment: dietary modification (avoid caffeine, alcohol, spicy foods), tricyclic antidepressants, instillation therapy.' },
+
+// ─── MED ADMIN / DOSAGE (8 cards) ────────────────────────────────
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'The 9 Rights of medication administration?',
+  a:'<div class="mnemonic">Right: <strong>Client, Medication, Dose, Time, Route, Documentation, Reason, Response, Client Education</strong></div>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Medication error: nurse\'s priority actions in order?',
+  a:'<div class="mnemonic">1. <strong>Assess client safety</strong> — vital signs, response<br>2. <strong>Notify charge nurse and provider</strong><br>3. <strong>Document</strong> in medical record (what happened, assessment, actions)<br>4. Complete <strong>incident/variance report</strong> (NOT in chart)</div>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Pharmacokinetics: 4 processes?',
+  a:'<div class="mnemonic"><strong>A</strong>bsorption — how drug enters bloodstream<br><strong>D</strong>istribution — how drug travels to tissues<br><strong>M</strong>etabolism — how drug is broken down (liver)<br><strong>E</strong>xcretion — how drug is eliminated (kidneys)</div>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Aluminum hydroxide (antacid): key nursing points?',
+  a:'<ul><li>Separate from other medications by <strong>at least 1 hour</strong> (binds drugs, reduces absorption)</li><li>Give BETWEEN meals</li><li>Side effect: <strong>constipation</strong></li><li>Caution in renal failure (aluminum toxicity)</li></ul>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Extended-release (ER/XR) medications: critical rule?',
+  a:'<strong>NEVER crush, cut, or chew</strong> extended/controlled-release tablets or capsules — destroys the release mechanism, can cause overdose. Administer whole. Check with pharmacy before any alteration.' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Controlled substance: wasting procedure?',
+  a:'<ul><li>Two nurses must witness wasting</li><li>Both nurses sign the documentation</li><li>Waste in appropriate disposal container</li><li>Document exactly what was wasted and amount</li><li>Follow facility policy for discrepancies</li></ul>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Peak and trough: what does each measure?',
+  a:'<ul><li><strong>Peak:</strong> highest drug concentration — assesses for <strong>toxicity</strong>. Drawn 30 min after IV infusion complete.</li><li><strong>Trough:</strong> lowest drug concentration — assesses <strong>effectiveness</strong>. Drawn right before next dose (ATI).</li></ul>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'I&O calculation: TURP example?',
+  a:'<strong>Formula: Total out − Irrigant in = Actual urine out</strong><br>Example: 800 mL total drainage − 600 mL irrigation = 200 mL actual urine over 4 hrs = 50 mL/hr. Minimum normal: 30 mL/hr.' },
+
+
+// ─── STROKE — additional high-yield (5) ───────────────────────────
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is the difference between expressive and receptive aphasia in practical nursing care?',
+  a:'<ul><li><strong>Expressive (Broca&#39;s):</strong> client UNDERSTANDS but cannot speak clearly. Use yes/no questions, communication boards, picture cards. Allow time — do not finish sentences.</li><li><strong>Receptive (Wernicke&#39;s):</strong> client CAN speak but does NOT understand. Use simple short phrases, gestures, demonstration. Speak slowly and face the client.</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'A client post-stroke develops a fever of 38.9°C. Why is this particularly dangerous after stroke?',
+  a:'Fever <strong>increases intracranial pressure (ICP)</strong> and worsens cerebral ischemia by increasing metabolic demand on already-damaged brain tissue. Aggressively manage fever: acetaminophen, cooling measures. Monitor temperature every 1–2 hours post-stroke.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What are the rehabilitation nursing priorities for a client with right-sided hemiplegia?',
+  a:'<ul><li>Passive ROM on affected RIGHT side to prevent contractures</li><li>Position in proper alignment — no plantarflexion (footboard/splints)</li><li>Encourage use of affected side during ADLs</li><li>Collaborate with PT, OT, speech therapy</li><li>ADL retraining — use stronger side to assist weaker side</li><li>Prevent falls — bed rails up, call bell in reach</li></ul>' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'Hemorrhagic stroke: why is BP management different from ischemic stroke?',
+  a:'In <strong>hemorrhagic stroke</strong>, high BP is managed more aggressively to reduce continued bleeding. In <strong>ischemic stroke</strong>, some hypertension is allowed (permissive hypertension) to maintain perfusion to the ischemic penumbra — only treat BP if extremely high or if giving tPA. Do NOT lower BP too aggressively in ischemic stroke.' },
+
+{ cat:'stroke', catLabel:'Stroke',
+  q:'What is a penumbra in the context of stroke and why does it matter clinically?',
+  a:'The <strong>ischemic penumbra</strong> is the area of brain tissue surrounding the infarct core that is at risk but still salvageable. It has reduced blood flow but is not yet dead. This is why <strong>time is critical</strong> — the penumbra can be saved with rapid reperfusion (tPA or thrombectomy). Delay converts penumbra to infarcted tissue.' },
+
+// ─── GI — additional high-yield (6) ───────────────────────────────
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Crohn&#39;s disease vs Ulcerative colitis: key differences?',
+  a:'<table style="font-size:12.5px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 6px;font-weight:700">Feature</td><td style="padding:3px 6px;font-weight:700">Crohn&#39;s</td><td style="padding:3px 6px;font-weight:700">UC</td></tr><tr><td style="padding:3px 6px">Location</td><td style="padding:3px 6px">Any GI tract (terminal ileum)</td><td style="padding:3px 6px">Colon/rectum only</td></tr><tr><td style="padding:3px 6px">Pattern</td><td style="padding:3px 6px">Skip lesions</td><td style="padding:3px 6px">Continuous, starts rectum</td></tr><tr><td style="padding:3px 6px">Depth</td><td style="padding:3px 6px">Transmural (all layers)</td><td style="padding:3px 6px">Mucosa/submucosa</td></tr><tr><td style="padding:3px 6px">Fistulas</td><td style="padding:3px 6px">Common</td><td style="padding:3px 6px">Rare</td></tr><tr><td style="padding:3px 6px">Bloody stool</td><td style="padding:3px 6px">Less common</td><td style="padding:3px 6px">Always present</td></tr></table>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Cirrhosis: what causes ascites and how is it managed?',
+  a:'<strong>Cause:</strong> portal hypertension + low albumin (decreased oncotic pressure) → fluid leaks into peritoneal cavity.<br><strong>Management:</strong><ul><li>Sodium restriction (low-sodium diet)</li><li>Fluid restriction if hyponatremic</li><li>Diuretics: spironolactone + furosemide</li><li>Paracentesis (drain fluid — large volume)</li><li>Monitor weight daily</li></ul>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Hepatic encephalopathy: cause, signs, and nursing priority?',
+  a:'<strong>Cause:</strong> ammonia buildup (liver cannot convert ammonia → urea).<br><strong>Signs:</strong> confusion, asterixis (flapping tremor of hands), personality changes, coma.<br><strong>Treatment:</strong> lactulose (reduces ammonia absorption), low-protein diet during acute phase, rifaximin.<br><strong>Priority:</strong> safety — fall risk, aspiration risk.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'PUD: when should the nurse hold NSAIDs/aspirin?',
+  a:'NSAIDs and aspirin <strong>inhibit prostaglandins</strong> that protect the gastric mucosa → cause and worsen peptic ulcers. They should be avoided in PUD. If antiplatelet therapy is essential, a PPI is added for gastroprotection. Acetaminophen is a safer analgesic alternative in PUD clients.' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Colonoscopy prep and post-procedure nursing care?',
+  a:'<strong>Pre:</strong> clear liquid diet 1–2 days before; bowel prep (polyethylene glycol); NPO after midnight; consent; hold blood thinners per order.<br><strong>Post:</strong><ul><li>Monitor for bleeding, perforation (abdominal pain, rigid abdomen)</li><li>Expect gas/bloating (air insufflated)</li><li>No driving (sedation used)</li><li>Gag reflex not affected (lower GI procedure)</li></ul>' },
+
+{ cat:'gi', catLabel:'GI / Biliary',
+  q:'Total parenteral nutrition (TPN): key nursing considerations?',
+  a:'<ul><li>Administered via <strong>central line</strong> only (hypertonic — damages peripheral veins)</li><li>Monitor blood glucose every 4–6 hours (TPN = high glucose → hyperglycemia)</li><li>Never abruptly stop TPN (rebound hypoglycemia)</li><li>Monitor electrolytes, liver function</li><li>Change tubing every 24 hours (infection risk)</li><li>Use infusion pump — do not speed up if behind</li></ul>' },
+
+// ─── NEUROBIOLOGY — additional (5) ────────────────────────────────
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'NMS vs Serotonin Syndrome: how to differentiate?',
+  a:'<ul><li><strong>NMS:</strong> caused by antipsychotics. Lead-pipe rigidity, hyperthermia, autonomic instability. Onset: days to weeks after starting/changing dose.</li><li><strong>Serotonin syndrome:</strong> caused by serotonergic drugs (SSRI + MAOI). Clonus, hyperreflexia, agitation, diaphoresis, diarrhea. Onset: within 24 hours of drug change.</li></ul>Key difference: NMS = rigid; Serotonin syndrome = hyperreflexia + clonus.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Lithium toxicity: nursing actions when toxicity suspected?',
+  a:'<strong>Early toxicity (1.5–2.0):</strong> nausea, diarrhea, tremor, drowsiness → hold dose, notify provider, increase fluids, check sodium.<br><strong>Severe (>2.0):</strong> seizures, cardiac arrhythmias, renal failure → emergency — may need hemodialysis.<br><strong>Cause:</strong> dehydration, low-sodium diet, NSAIDs (increase lithium levels). Maintain adequate fluids and sodium.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Why do NSAIDs interact dangerously with lithium?',
+  a:'NSAIDs decrease renal prostaglandins → decrease renal blood flow → <strong>reduce lithium excretion</strong> → lithium accumulates → toxicity. Also: diuretics (thiazides especially) and dehydration raise lithium levels. Teach clients to avoid ibuprofen and maintain consistent sodium/fluid intake.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Antipsychotic medications: first-generation vs second-generation?',
+  a:'<ul><li><strong>First-gen (typical):</strong> haloperidol, fluphenazine, chlorpromazine. Higher EPS risk. No metabolic effects.</li><li><strong>Second-gen (atypical):</strong> olanzapine, quetiapine, risperidone, clozapine. Less EPS. Higher metabolic risk (weight gain, diabetes, dyslipidemia). QT prolongation with most.</li></ul>Clozapine = agranulocytosis risk.' },
+
+{ cat:'neuro', catLabel:'Neurobiology',
+  q:'Group therapy types: what does the nurse need to know?',
+  a:'<ul><li><strong>Psychoeducational:</strong> teach about illness and medications</li><li><strong>Supportive:</strong> emotional support, coping strategies</li><li><strong>Cognitive-behavioral (CBT):</strong> change thought patterns → change behavior</li><li><strong>Self-help/12-step:</strong> peer support (AA, NA)</li></ul>Nurse role: maintain safety, confidentiality, encourage participation, enforce group norms.' },
+
+// ─── INFECTION — additional (4) ───────────────────────────────────
+{ cat:'infection', catLabel:'Infection',
+  q:'C. difficile (C. diff): transmission and treatment?',
+  a:'<strong>Transmission:</strong> fecal-oral, spores on surfaces. Occurs after antibiotic therapy (disrupts normal flora).<br><strong>Isolation:</strong> Contact precautions. <strong>Must use soap and water — NOT hand sanitizer</strong> (alcohol does not kill spores).<br><strong>Treatment:</strong> metronidazole or vancomycin PO; fidaxomicin. Stop causative antibiotic if possible.' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Sepsis: early recognition signs (SIRS criteria)?',
+  a:'<strong>Two or more of:</strong><ul><li>Temp >38°C or <36°C</li><li>HR >90/min</li><li>RR >20/min or PaCO₂ <32 mmHg</li><li>WBC >12,000 or <4,000/mm³</li></ul><strong>Nursing priority:</strong> blood cultures × 2 → broad-spectrum antibiotics → IV fluids → monitor lactate, UO, BP. Sepsis = time-sensitive.' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'Occupational exposure to blood/body fluids: immediate nurse actions?',
+  a:'<div class="mnemonic">1. <strong>Wash</strong> exposed area immediately (soap and water for skin; flush eyes with water)<br>2. <strong>Report</strong> to supervisor and occupational health immediately<br>3. <strong>Document</strong> the exposure<br>4. <strong>Post-exposure prophylaxis</strong> (PEP) for HIV if indicated — start within 72 hours<br>5. <strong>Test</strong> source patient (HIV, HBV, HCV) and employee baseline</div>' },
+
+{ cat:'infection', catLabel:'Infection',
+  q:'MRSA: what makes it resistant and how is it treated?',
+  a:'Methicillin-resistant <em>Staphylococcus aureus</em> — resistant to all beta-lactam antibiotics (penicillins, cephalosporins, methicillin). Treatment: <strong>vancomycin</strong> (drug of choice), linezolid, daptomycin. Isolation: contact precautions. Screen: nasal swab.' },
+
+// ─── ANTICOAGULANTS — additional (3) ──────────────────────────────
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'DVT: signs and symptoms vs pulmonary embolism (PE)?',
+  a:'<ul><li><strong>DVT:</strong> unilateral leg pain, swelling, warmth, erythema, positive Homan&#39;s sign (unreliable). Doppler ultrasound confirms.</li><li><strong>PE:</strong> sudden dyspnea, pleuritic chest pain, tachycardia, hemoptysis, hypoxia, anxiety. CT pulmonary angiogram confirms. Medical emergency.</li></ul>DVT can dislodge → PE. If DVT suspected: do NOT massage leg.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'Protamine sulfate: dose and indication?',
+  a:'Reversal agent for <strong>heparin toxicity</strong>. Given slowly IV. 1 mg protamine neutralizes approximately 100 units of heparin. Monitor for anaphylaxis. NOT effective for LMWH (enoxaparin) — only partially reverses.' },
+
+{ cat:'anticoag', catLabel:'Anticoagulants',
+  q:'What anticoagulant is used during pregnancy and why?',
+  a:'<strong>Heparin (unfractionated or LMWH/enoxaparin)</strong> — does not cross the placenta. Warfarin is <strong>Pregnancy Category X</strong> — teratogenic (causes fetal hemorrhage, bone abnormalities). NOACs are also contraindicated in pregnancy. Heparin is safe.' },
+
+// ─── RESPIRATORY — additional (4) ─────────────────────────────────
+{ cat:'resp', catLabel:'Respiratory',
+  q:'RIPE therapy for tuberculosis: drugs, durations, and side effects?',
+  a:'<ul><li><strong>R</strong>ifampin — orange urine/secretions; hepatotoxic; induces CYP450 (drug interactions)</li><li><strong>I</strong>soniazid (INH) — peripheral neuropathy (give B6); hepatotoxic</li><li><strong>P</strong>yrazinamide — hepatotoxic; hyperuricemia</li><li><strong>E</strong>thambutol — optic neuritis (vision changes — report immediately)</li></ul>Initial phase: all 4 drugs × 2 months. Continuation phase: rifampin + INH × 4 months. Total: 6 months.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'COPD: barrel chest and why it develops?',
+  a:'<strong>Barrel chest</strong> (increased AP diameter) develops in chronic emphysema from <strong>chronic air trapping</strong> and hyperinflation. Alveoli are destroyed → lose elastic recoil → air traps → lungs hyperinflate → ribs pushed outward. Classic finding with decreased breath sounds, prolonged expiration, use of accessory muscles.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Pursed-lip breathing: purpose and how to teach?',
+  a:'<strong>Purpose:</strong> Creates back-pressure that keeps airways open during exhalation → prevents air trapping in COPD. Slows respiration and decreases work of breathing.<br><strong>Teach:</strong> Inhale slowly through nose for 2 counts → exhale slowly through <strong>pursed lips</strong> for 4 counts (exhale twice as long as inhale). Use during exertion and dyspnea episodes.' },
+
+{ cat:'resp', catLabel:'Respiratory',
+  q:'Obstructive vs restrictive lung disease: key difference?',
+  a:'<ul><li><strong>Obstructive</strong> (COPD, asthma): airflow is BLOCKED on exhalation → air trapping → decreased FEV1/FVC ratio (<0.70)</li><li><strong>Restrictive</strong> (pulmonary fibrosis, scoliosis): lungs cannot fully EXPAND → decreased total lung capacity → FEV1/FVC ratio normal or increased</li></ul>' },
+
+// ─── ACID-BASE — additional (3) ───────────────────────────────────
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'ABG interpretation: pH 7.32, PaCO₂ 28, HCO₃ 14. What is it?',
+  a:'<strong>Metabolic acidosis — partially compensated.</strong><br>pH 7.32 = acidosis. HCO₃ 14 = LOW = metabolic cause. PaCO₂ 28 = LOW = lungs compensating by blowing off CO₂ (Kussmaul). pH still abnormal → partially compensated. Classic: DKA, renal failure, severe diarrhea.' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'What electrolyte disturbance is most associated with metabolic alkalosis?',
+  a:'<strong>Hypokalemia</strong> — when K⁺ is low, the kidneys compensate by retaining K⁺ and excreting H⁺ → blood becomes more alkaline. Also: vomiting loses HCl (acid) directly. Treat underlying cause + replace K⁺ and chloride.' },
+
+{ cat:'acidbase', catLabel:'Acid-Base',
+  q:'A client with COPD has a chronic PaCO₂ of 55 mmHg with a normal pH. Why is the pH normal?',
+  a:'<strong>Full renal compensation.</strong> Kidneys retained bicarbonate over time to buffer the chronically elevated CO₂. pH returned to normal (7.35–7.45) despite abnormal PaCO₂ and HCO₃ — this is chronic respiratory acidosis, fully compensated. Do NOT aggressively treat the CO₂ — it is their baseline.' },
+
+// ─── ELECTROLYTES — additional (4) ────────────────────────────────
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Hyponatremia: causes, signs, and correction caution?',
+  a:'<strong>Causes:</strong> SIADH, excessive hypotonic fluid, heart failure, cirrhosis.<br><strong>Signs:</strong> confusion, headache, seizures, muscle cramps (severe).<br><strong>CRITICAL:</strong> Do NOT correct too rapidly — correct slowly (max 12 mEq/L in 24 hr) to prevent osmotic demyelination syndrome (central pontine myelinolysis).' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'SIADH: what is it and how is it treated?',
+  a:'Syndrome of Inappropriate Antidiuretic Hormone — ADH released inappropriately → kidneys retain too much water → dilutional hyponatremia.<br><strong>Treatment:</strong><ul><li>Fluid restriction (primary)</li><li>Sodium replacement if severe</li><li>Demeclocycline or tolvaptan for chronic cases</li></ul>Causes: brain injury, SCLC (small cell lung cancer), medications (SSRIs, carbamazepine).' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Hypernatremia: signs and nursing management?',
+  a:'Na⁺ >145 mEq/L. <strong>Signs:</strong> intense thirst, dry mucous membranes, agitation, seizures, coma (severe). <strong>Cause:</strong> dehydration, DI (diabetes insipidus), excessive sodium intake.<br><strong>Nursing:</strong> gradually replace free water (hypotonic fluids or oral water) — do NOT correct too rapidly (cerebral edema). Correct slowly over 48 hours.' },
+
+{ cat:'electro', catLabel:'Electrolytes',
+  q:'Loop diuretics (furosemide) vs thiazides: electrolyte effects?',
+  a:'<ul><li><strong>Loop diuretics (furosemide):</strong> lose K⁺, Na⁺, Mg²⁺, Ca²⁺ — hypocalcemia, hypokalemia, hypomagnesemia</li><li><strong>Thiazides (HCTZ):</strong> lose K⁺, Na⁺, Mg²⁺; RETAIN Ca²⁺ → hypercalcemia</li><li><strong>Potassium-sparing (spironolactone):</strong> RETAIN K⁺ → hyperkalemia</li></ul>' },
+
+// ─── PERIOPERATIVE — additional (4) ───────────────────────────────
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Surgical drain types: JP vs Hemovac vs T-tube?',
+  a:'<ul><li><strong>Jackson-Pratt (JP):</strong> bulb suction; empty when half full; compress to re-establish suction</li><li><strong>Hemovac:</strong> larger capacity; compress flat to create suction</li><li><strong>T-tube:</strong> placed in common bile duct after choledochostomy; drains bile; measure output; clamp as directed</li></ul>Assess: color, consistency, amount. Normal drainage decreases over time.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Post-op respiratory complications: atelectasis vs pneumonia — differences?',
+  a:'<ul><li><strong>Atelectasis</strong> (most common post-op): alveolar collapse from shallow breathing. Signs: diminished breath sounds, mild fever, low SpO₂. Prevent with incentive spirometry.</li><li><strong>Pneumonia</strong>: usually develops later (48–72 hr+). Signs: high fever, productive cough, crackles, consolidation on X-ray.</li></ul>Prevention for both: deep breathing, coughing, early ambulation.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Informed consent: what is the nurse&#39;s specific role?',
+  a:'The <strong>provider (surgeon/physician) is responsible</strong> for explaining the procedure, risks, benefits, and alternatives and obtaining consent. The <strong>nurse&#39;s role is to WITNESS</strong> the client&#39;s signature and ensure the client understood the information. If the client has questions or appears not to understand → notify the provider before proceeding.' },
+
+{ cat:'periop', catLabel:'Perioperative',
+  q:'Post-op urinary retention: when to intervene and how?',
+  a:'Client unable to void within <strong>6–8 hours post-op</strong> or has palpable bladder distension. Interventions:<ul><li>Privacy, position (standing/sitting)</li><li>Run water, warm water perineal rinse</li><li>Suprapubic pressure</li><li>Straight catheterization if above fails (per order)</li></ul>Spinal anesthesia commonly causes urinary retention.' },
+
+// ─── ONCOLOGY — additional (3) ────────────────────────────────────
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Tumor lysis syndrome (TLS): what is it and what labs does the nurse monitor?',
+  a:'Rapid cancer cell death releases intracellular contents → electrolyte emergency.<br><strong>Signs:</strong> hyperkalemia, hyperphosphatemia, hypocalcemia, hyperuricemia → renal failure, cardiac arrhythmias.<br><strong>Monitor:</strong> K⁺, phosphate, Ca²⁺, uric acid, creatinine, BUN. Aggressive hydration is key prevention.' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Methotrexate: mechanism and key nursing teaching?',
+  a:'Folate antagonist — interferes with DNA synthesis. Used for: cancer, RA, psoriasis.<br><strong>Teach:</strong><ul><li>Avoid alcohol (hepatotoxicity)</li><li>Avoid NSAIDs (increase toxicity)</li><li>Use reliable contraception (teratogenic)</li><li>Report mouth sores, bone marrow suppression signs</li><li>Leucovorin "rescue" may be given to counteract toxicity</li></ul>' },
+
+{ cat:'oncology', catLabel:'Oncology',
+  q:'Surgery types for cancer: what do curative vs palliative vs prophylactic mean?',
+  a:'<ul><li><strong>Curative:</strong> remove entire tumor for cure</li><li><strong>Palliative:</strong> relieve symptoms, improve QOL — not to cure</li><li><strong>Prophylactic:</strong> remove at-risk tissue before cancer develops (e.g., mastectomy for BRCA+)</li><li><strong>Reconstructive:</strong> restore form/function after cancer surgery</li><li><strong>Debulking:</strong> reduce tumor burden to improve chemo/radiation effectiveness</li></ul>' },
+
+// ─── DIABETES — additional (4) ────────────────────────────────────
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'DKA vs HHS (Hyperosmolar Hyperglycemic State): key differences?',
+  a:'<table style="font-size:12.5px;width:100%;border-collapse:collapse"><tr><td style="padding:3px 6px;font-weight:700"></td><td style="padding:3px 6px;font-weight:700">DKA</td><td style="padding:3px 6px;font-weight:700">HHS</td></tr><tr><td style="padding:3px 6px">Type</td><td style="padding:3px 6px">Type 1 (mainly)</td><td style="padding:3px 6px">Type 2 (mainly)</td></tr><tr><td style="padding:3px 6px">Glucose</td><td style="padding:3px 6px">>250 mg/dL</td><td style="padding:3px 6px">>600 mg/dL</td></tr><tr><td style="padding:3px 6px">Ketones</td><td style="padding:3px 6px">Present (acidosis)</td><td style="padding:3px 6px">Absent or minimal</td></tr><tr><td style="padding:3px 6px">Onset</td><td style="padding:3px 6px">Hours</td><td style="padding:3px 6px">Days to weeks</td></tr><tr><td style="padding:3px 6px">Mortality</td><td style="padding:3px 6px">Lower</td><td style="padding:3px 6px">Higher</td></tr></table>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Diabetes "sick day rules" — what should the client do when ill?',
+  a:'<ul><li><strong>Never skip insulin</strong> — illness increases glucose even if not eating</li><li>Check blood glucose every 4 hours</li><li>Check urine/blood ketones if glucose >240</li><li>Maintain fluid intake (sips of water, broth)</li><li>Call provider if: glucose >300, ketones present, vomiting >1 hour, unable to keep fluids down</li></ul>' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Diabetic peripheral neuropathy: assessment and nursing priorities?',
+  a:'Loss of protective sensation in feet/hands. <strong>Assess:</strong> 10g monofilament test, vibration sense, reflexes.<br><strong>Nursing:</strong> inspect feet daily, proper footwear always, no heating pads, proper nail care, prompt wound care. Neuropathy = cannot feel injuries → wounds progress undetected → amputation risk.' },
+
+{ cat:'diabetes', catLabel:'Diabetes',
+  q:'Glucagon: when is it used and how is it administered?',
+  a:'Used for <strong>severe hypoglycemia in an unconscious client</strong> who cannot safely swallow. Given <strong>SubQ or IM</strong>. Works by stimulating liver glycogenolysis (glycogen → glucose). After it works, feed the client carbohydrates once conscious to prevent recurrence. Family/caregiver can administer at home.' },
+
+// ─── CARDIAC / HTN — additional (5) ───────────────────────────────
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Heart failure: left-sided vs right-sided manifestations?',
+  a:'<ul><li><strong>Left-sided:</strong> pulmonary congestion — dyspnea, orthopnea, PND, crackles, pink frothy sputum, S3 gallop</li><li><strong>Right-sided:</strong> systemic congestion — peripheral edema, JVD, hepatomegaly, ascites, weight gain</li></ul>Left → right: untreated left HF causes right HF (most common cause of right HF).' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Priority position for a client with acute pulmonary edema?',
+  a:'<strong>High Fowler&#39;s (90°)</strong> with legs dangling off the bed. This reduces preload (venous return to heart) by pooling blood in legs, reduces pulmonary congestion. Give high-flow O₂, morphine (reduces preload/anxiety), furosemide (diuresis). Call for help immediately.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Beta-blockers (metoprolol): actions and key nursing consideration?',
+  a:'<strong>Action:</strong> blocks beta-1 receptors → decreases HR, BP, myocardial oxygen demand. Used: HTN, HF, MI, angina, dysrhythmias.<br><strong>Check apical pulse</strong> before giving — hold if <60/min. NEVER stop abruptly (rebound angina/MI). Masks tachycardia of hypoglycemia — caution in diabetics.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'Calcium channel blockers (amlodipine, verapamil): food interaction?',
+  a:'Avoid <strong>grapefruit and grapefruit juice</strong> — inhibits CYP3A4 → increases drug levels → excessive hypotension, bradycardia. Also: verapamil causes constipation. Amlodipine causes peripheral edema. All cause orthostatic hypotension — rise slowly.' },
+
+{ cat:'cardiac', catLabel:'Cardiac / HTN',
+  q:'What is orthostatic hypotension and how does the nurse assess for it?',
+  a:'Drop in systolic BP ≥<strong>20 mmHg</strong> or diastolic ≥<strong>10 mmHg</strong> within 3 minutes of standing.<br><strong>Assessment:</strong> Check BP lying → sitting → standing, 1–3 min between each.<br><strong>Teaching:</strong> rise slowly, dangle legs, avoid prolonged standing, increase fluids. Common with antihypertensives, diuretics, TCAs, antipsychotics.' },
+
+// ─── MSK — additional (4) ─────────────────────────────────────────
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Skeletal traction vs skin traction: key differences?',
+  a:'<ul><li><strong>Skin traction (Buck&#39;s):</strong> applied to skin surface. Limited weight (max 5–7 lb). Short-term. For hip fractures pre-op, muscle spasms.</li><li><strong>Skeletal traction:</strong> pins/wires through bone. Heavier weights. Long-term. For unstable fractures. Pin care required — assess for infection.</li></ul>Both: maintain continuous pull, weights hang freely, no sudden removal.' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Post-amputation: what is phantom limb pain and how is it managed?',
+  a:'Phantom pain is <strong>REAL pain</strong> perceived in the amputated limb — due to damaged nerve endings in stump. It is not psychological. Management: opioids, mirror therapy, TENS, tricyclic antidepressants, gabapentin. Validate the client&#39;s experience — it is a real neurological phenomenon.' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Fracture: neurovascular assessment — what are the 5 Ps and when to report?',
+  a:'Assess the <strong>5 Ps</strong> every 1–2 hours: Pain · Paresthesia · Pallor · Pulselessness · Paralysis.<br>Report immediately: increasing/unrelieved pain, numbness/tingling, cool/pale extremity, absent or diminished pulse → signs of compartment syndrome or vascular compromise.' },
+
+{ cat:'msk', catLabel:'Musculoskeletal',
+  q:'Gout: pathophysiology and dietary teaching?',
+  a:'Uric acid crystals deposit in joints (often big toe — podagra). <strong>Diet:</strong> avoid high-purine foods (red meat, organ meats, shellfish, beer, anchovies). Increase fluid intake. Limit alcohol. Medications: allopurinol (decreases uric acid production), colchicine (acute flare). Apply ice during flares.' },
+
+// ─── GU — additional (3) ──────────────────────────────────────────
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Benign prostatic hyperplasia (BPH) vs prostate cancer: key differences?',
+  a:'<ul><li><strong>BPH:</strong> benign enlargement; urinary symptoms (hesitancy, nocturia, weak stream, retention); does NOT metastasize; common in older men</li><li><strong>Prostate cancer:</strong> malignant; may be asymptomatic early; elevated PSA; can metastasize to bone (back pain); detected by PSA + biopsy</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Urinary catheter care: key nursing considerations?',
+  a:'<ul><li>Maintain <strong>closed drainage system</strong></li><li>Keep bag <strong>below bladder level</strong> (prevents backflow)</li><li>Clean with soap and water at meatus daily</li><li>Secure catheter to thigh (prevent traction)</li><li>Encourage 3 L/day fluid intake</li><li>Remove catheter as soon as possible (CAUTI prevention)</li><li>Never clamp drainage tube</li></ul>' },
+
+{ cat:'gu', catLabel:'Genitourinary',
+  q:'Urinary tract infection (UTI): risk factors in hospitalized clients?',
+  a:'<strong>Major risk factor:</strong> urinary catheter (CAUTI = most common HAI).<br>Other risks: female anatomy, sexual activity, diabetes, urinary stasis, BPH, neurogenic bladder, immunosuppression, pregnancy.<br>Prevention: remove catheter ASAP, use closed drainage, proper perineal care, hand hygiene.' },
+
+// ─── MED ADMIN / DOSAGE — additional (5) ──────────────────────────
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Dosage calculation: a client weighs 154 lbs. The order is vancomycin 15 mg/kg IV. What dose?',
+  a:'<strong>Convert lbs to kg first:</strong> 154 ÷ 2.2 = <strong>70 kg</strong><br>Dose = 15 mg/kg × 70 kg = <strong>1,050 mg</strong><br><span class="highlight">Always convert pounds to kilograms for weight-based dosing: lbs ÷ 2.2 = kg</span>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'IV flow rate calculation: ordered 1,000 mL NS over 8 hours with a drip factor of 15 gtt/mL. What is the rate in gtt/min?',
+  a:'<strong>Formula:</strong> (Volume × Drip factor) ÷ Time in minutes<br>(1,000 mL × 15 gtt/mL) ÷ (8 hr × 60 min) = 15,000 ÷ 480 = <strong>31.25 = 31 gtt/min</strong><br><span class="highlight">Round to nearest whole number for manual drip counting</span>' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Five pharmacokinetics factors that alter drug metabolism in older adults?',
+  a:'<ul><li>Decreased liver function → slower metabolism → drug accumulates</li><li>Decreased renal function → slower excretion → toxicity risk</li><li>Decreased albumin → more free (active) drug in blood</li><li>Decreased body water → higher drug concentration</li><li>Increased body fat → fat-soluble drugs stay longer</li></ul>Result: use lower doses, monitor closely, start low and go slow.' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'What does "therapeutic index" mean and which drugs have a narrow one?',
+  a:'Therapeutic index = ratio between toxic dose and effective dose. <strong>Narrow therapeutic index</strong> = small difference between effective and toxic dose → requires frequent monitoring.<br>Examples: <strong>lithium, digoxin, warfarin, phenytoin, theophylline, aminoglycosides, vancomycin</strong>. These require drug level monitoring.' },
+
+{ cat:'medadmin', catLabel:'Med Admin',
+  q:'Subcutaneous injection: sites and technique?',
+  a:'<strong>Sites:</strong> abdomen (most rapid absorption), outer upper arms, anterior thighs, upper back.<br><strong>Technique:</strong><ul><li>Use 45° angle (obese: 90°)</li><li>Pinch skin</li><li>Do NOT aspirate</li><li>Rotate sites systematically</li><li>Insulin: abdomen = fastest; thigh = slowest</li></ul>' },
+
+]; // end CARDS
+
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
+let status = {};      // {cardId: 'know'|'review'|'maybe'}
+let currentFilter = 'all';
+let currentSearch = '';
+let flipped = {};
+
+try {
+  status = JSON.parse(localStorage.getItem('fc-status') || '{}');
+} catch(e) { status = {}; }
+
+function saveStatus() {
+  try { localStorage.setItem('fc-status', JSON.stringify(status)); } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════
+const CAT_COLORS = {
+  stroke:'#9b72e8', gi:'#e8a838', neuro:'#9b72e8', hiv:'#e05c6a',
+  infection:'#2fbfbf', anticoag:'#4f8ef7', anemia:'#e8527a',
+  resp:'#2fbfbf', acidbase:'#9b72e8', electro:'#3db87a',
+  periop:'#3db87a', oncology:'#e8a838', diabetes:'#4f8ef7',
+  cardiac:'#e05c6a', msk:'#3db87a', gu:'#2fbfbf',
+  medadmin:'#4f8ef7', math:'#8b92b8'
+};
+
+function renderCards() {
+  const grid = document.getElementById('cardGrid');
+  const filtered = CARDS.filter((c, i) => {
+    if (currentFilter === 'review' && status[i] !== 'review') return false;
+    if (currentFilter !== 'all' && currentFilter !== 'review' && c.cat !== currentFilter) return false;
+    if (currentSearch) {
+      const q = c.q.toLowerCase();
+      const a = c.a.toLowerCase().replace(/<[^>]+>/g,'');
+      if (!q.includes(currentSearch) && !a.includes(currentSearch) && !c.catLabel.toLowerCase().includes(currentSearch)) return false;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state">No cards match your filter. Try a different category or clear the search.</div>';
+    return;
+  }
+
+  const color = CAT_COLORS[currentFilter] || '#4f8ef7';
+  grid.innerHTML = filtered.map((c) => {
+    const idx = CARDS.indexOf(c);
+    const st = status[idx] || '';
+    const col = CAT_COLORS[c.cat] || '#4f8ef7';
+    const dotClass = st === 'know' ? 'status-know' : st === 'review' ? 'status-review' : st === 'maybe' ? 'status-maybe' : '';
+
+    return `<div class="fc" id="fc-${idx}" onclick="flipCard(${idx})">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <div class="fc-tag">
+            <span class="tag-pill" style="background:${col}22;color:${col}">${c.catLabel}</span>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div class="status-dot ${dotClass}" id="dot-${idx}"></div>
+              <span class="flip-hint">tap to flip</span>
+            </div>
+          </div>
+          <div class="fc-q">
+            <div class="fc-q-text">${c.q}</div>
+          </div>
+          <div class="fc-num">#${idx + 1} of ${CARDS.length}</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-back-header">
+            <span class="tag-pill" style="background:${col}22;color:${col}">${c.catLabel}</span>
+            <span class="answer-label" style="margin-left:auto">Answer</span>
+          </div>
+          <div class="fc-a">${c.a}</div>
+          <div class="fc-btns" onclick="event.stopPropagation()">
+            <button class="fc-btn know" onclick="markCard(${idx},'know')">✓ Know it</button>
+            <button class="fc-btn maybe" onclick="markCard(${idx},'maybe')">~ Almost</button>
+            <button class="fc-btn review" onclick="markCard(${idx},'review')">✗ Review</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  updateStats();
+}
+
+function flipCard(idx) {
+  const card = document.getElementById('fc-' + idx);
+  if (!card) return;
+  card.classList.toggle('flipped');
+}
+
+function markCard(idx, mark) {
+  status[idx] = mark;
+  saveStatus();
+  const dot = document.getElementById('dot-' + idx);
+  if (dot) {
+    dot.className = 'status-dot ' + (mark === 'know' ? 'status-know' : mark === 'review' ? 'status-review' : 'status-maybe');
+  }
+  updateStats();
+}
+
+function updateStats() {
+  const total = CARDS.length;
+  const know = Object.values(status).filter(v => v === 'know').length;
+  const review = Object.values(status).filter(v => v === 'review').length;
+  const maybe = Object.values(status).filter(v => v === 'maybe').length;
+  document.getElementById('totalCount').textContent = total;
+  document.getElementById('knowCount').textContent = know;
+  document.getElementById('reviewCount').textContent = review;
+  document.getElementById('maybeCount').textContent = maybe;
+  const pct = Math.round(know / total * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${know} / ${total} known (${pct}%)`;
+}
+
+function filterCards(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderCards();
+  if (typeof currentView !== 'undefined' && currentView === 'study') buildStudyDeck();
+}
+
+function searchCards(val) {
+  currentSearch = val.toLowerCase().trim();
+  renderCards();
+  if (typeof currentView !== 'undefined' && currentView === 'study') buildStudyDeck();
+}
+
+
+// ════════════════════════════════════════════════════════════
+// STUDY MODE (Quizlet / Anki style)
+// ════════════════════════════════════════════════════════════
+let currentView = 'grid';
+let studyDeck = [];
+let studyIndex = 0;
+let studyIsFlipped = false;
+
+function setView(view) {
+  currentView = view;
+  const body = document.body;
+  const studyEl = document.getElementById('studyMode');
+  const gridEl = document.getElementById('cardGrid');
+
+  if (view === 'study') {
+    body.classList.add('study-active');
+    studyEl.classList.add('active');
+    gridEl.style.display = 'none';
+    document.getElementById('btnStudy').classList.add('active');
+    document.getElementById('btnGrid').classList.remove('active');
+    buildStudyDeck();
+  } else {
+    body.classList.remove('study-active');
+    studyEl.classList.remove('active');
+    gridEl.style.display = '';
+    document.getElementById('btnGrid').classList.add('active');
+    document.getElementById('btnStudy').classList.remove('active');
+  }
+}
+
+function buildStudyDeck() {
+  studyDeck = CARDS.map((c, i) => ({ ...c, origIdx: i })).filter(c => {
+    if (currentFilter === 'review' && status[c.origIdx] !== 'review') return false;
+    if (currentFilter !== 'all' && currentFilter !== 'review' && c.cat !== currentFilter) return false;
+    if (currentSearch) {
+      const q = c.q.toLowerCase();
+      const a = c.a.toLowerCase().replace(/<[^>]+>/g, '');
+      if (!q.includes(currentSearch) && !a.includes(currentSearch) && !c.catLabel.toLowerCase().includes(currentSearch)) return false;
+    }
+    return true;
+  });
+  studyIndex = 0;
+  document.getElementById('studyTotal').textContent = studyDeck.length;
+  renderStudyCard();
+  renderStudyDots();
+}
+
+function shuffleStudy() {
+  for (let i = studyDeck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [studyDeck[i], studyDeck[j]] = [studyDeck[j], studyDeck[i]];
+  }
+  studyIndex = 0;
+  renderStudyCard();
+  renderStudyDots();
+}
+
+function renderStudyCard() {
+  if (!studyDeck.length) return;
+  const card = studyDeck[studyIndex];
+  const col = CAT_COLORS[card.cat] || '#4f8ef7';
+
+  // Reset to front
+  studyIsFlipped = false;
+  document.getElementById('studyCard').classList.remove('flipped');
+
+  document.getElementById('studyQuestion').innerHTML = card.q;
+  document.getElementById('studyAnswer').innerHTML = card.a;
+  ['studyTagFront','studyTagBack'].forEach(id => {
+    const el = document.getElementById(id);
+    el.textContent = card.catLabel;
+    el.style.background = col + '22';
+    el.style.color = col;
+  });
+
+  document.getElementById('studyPos').textContent = studyIndex + 1;
+  document.getElementById('prevBtn').disabled = studyIndex === 0;
+  document.getElementById('nextBtn').disabled = studyIndex === studyDeck.length - 1;
+
+  // Update dots
+  document.querySelectorAll('.study-dot').forEach((dot, i) => {
+    const st = status[(studyDeck[i] || {}).origIdx] || '';
+    dot.className = 'study-dot' + (i === studyIndex ? ' current' : (st ? ' ' + st : ''));
+  });
+}
+
+function renderStudyDots() {
+  const wrap = document.getElementById('studyDots');
+  if (studyDeck.length > 80) { wrap.innerHTML = ''; return; }
+  wrap.innerHTML = studyDeck.map((c, i) => {
+    const st = status[c.origIdx] || '';
+    const cls = i === studyIndex ? 'current' : (st || '');
+    return '<div class="study-dot ' + cls + '" onclick="jumpStudy(' + i + ')"></div>';
+  }).join('');
+}
+
+function jumpStudy(i) { studyIndex = i; renderStudyCard(); }
+
+function flipStudyCard() {
+  studyIsFlipped = !studyIsFlipped;
+  document.getElementById('studyCard').classList.toggle('flipped', studyIsFlipped);
+}
+
+function studyNav(dir) {
+  const n = studyIndex + dir;
+  if (n < 0 || n >= studyDeck.length) return;
+  studyIndex = n;
+  renderStudyCard();
+  // Update dot
+  document.querySelectorAll('.study-dot').forEach((dot, i) => {
+    const st = status[(studyDeck[i] || {}).origIdx] || '';
+    dot.className = 'study-dot' + (i === studyIndex ? ' current' : (st ? ' ' + st : ''));
+  });
+}
+
+function studyMark(mark) {
+  if (!studyDeck.length) return;
+  const card = studyDeck[studyIndex];
+  status[card.origIdx] = mark;
+  saveStatus();
+  updateStats();
+  renderStudyDots();
+  // Auto-advance
+  if (studyIndex < studyDeck.length - 1) {
+    setTimeout(() => studyNav(1), 180);
+  }
+}
+
+// Keyboard shortcuts in study mode
+document.addEventListener('keydown', function(e) {
+  if (currentView !== 'study') return;
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') { studyNav(1); }
+  else if (e.key === 'ArrowLeft')  { studyNav(-1); }
+  else if (e.key === ' ')  { e.preventDefault(); flipStudyCard(); }
+  else if (e.key === '1')  { studyMark('review'); }
+  else if (e.key === '2')  { studyMark('maybe'); }
+  else if (e.key === '3')  { studyMark('know'); }
+});
+
+// Filter rebuild handled inside filterCards
+
+
+// ── Theme Toggle ─────────────────────────────────────────────
+(function() {
+  const saved = localStorage.getItem('fc-theme') || 'dark';
+  applyTheme(saved, true);
+})();
+
+function applyTheme(theme, silent) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('fc-theme', theme);
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  if (!icon) return;
+  if (theme === 'light') {
+    icon.innerHTML = '&#127769;';
+    label.textContent = 'Dark';
+  } else {
+    icon.innerHTML = '&#9728;&#65039;';
+    label.textContent = 'Light';
+  }
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  applyTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// Init
+renderCards();
+</script>
+</body>
+</html>
